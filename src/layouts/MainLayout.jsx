@@ -4,13 +4,19 @@ import Footer from "../components/Footer";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-indigo-950 lg:flex">
+    <div className="min-h-screen bg-blue-950 lg:flex">
 
       {/* Desktop sidebar */}
-      <aside
-        className="hidden lg:sticky lg:top-0 lg:flex  lg:h-screen lg:w-64 lg:shrink-0
-                   lg:flex-col lg:justify-between border-r border-gray-600 p-8 "
-      >
+   <aside
+  className="relative hidden lg:sticky lg:top-0 lg:flex  lg:h-screen lg:w-64 lg:shrink-0
+             lg:flex-col lg:justify-between p-8"
+>
+  {/* Gradient border */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute right-0 top-0  h-full w-px  bg-gradient-to-b
+               from-cyan-400/40    via-violet-500/60  to-pink-400/40"
+  />
         <Navbar />
         <Footer />
       </aside>
