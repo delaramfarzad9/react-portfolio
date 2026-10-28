@@ -134,3 +134,19 @@
   --font-space: 'Space Mono', monospace;
 }
 body{@apply text-gray-100}
+@keyframes techFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="techFloat"] {
+    animation: none !important;
+  }
+}
