@@ -150,3 +150,8 @@ body{@apply text-gray-100}
     animation: none !important;
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  .portrait-motion {
+    transform: none !important;
+  }
+}

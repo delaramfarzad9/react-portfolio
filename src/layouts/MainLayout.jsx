@@ -8,7 +8,7 @@ function MainLayout() {
 
       {/* Desktop sidebar */}
    <aside
-  className="relative hidden lg:sticky lg:top-0 lg:flex  lg:h-screen lg:w-64 lg:shrink-0
+  className="relative hidden lg:sticky lg:top-0 lg:flex  lg:h-screen lg:w-60 2xl:w-64 lg:shrink-0
              lg:flex-col lg:justify-between p-8"
 >
   {/* Gradient border */}
