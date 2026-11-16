@@ -1,17 +1,16 @@
-
-
 import { useEffect, useRef } from "react";
 
 function FloatingPortrait({ src, alt }) {
   const portraitRef = useRef(null);
   const frameRef = useRef(null);
+
   useEffect(() => {
-  return () => {
-    if (frameRef.current !== null) {
-      cancelAnimationFrame(frameRef.current);
-    }
-  };
-}, []);
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
 
   const handlePointerMove = (e) => {
     if (e.pointerType === "touch") return;
@@ -31,8 +30,10 @@ function FloatingPortrait({ src, alt }) {
     frameRef.current = requestAnimationFrame(() => {
       element.style.setProperty("--rotateX", `${(0.5 - y) * 8}deg`);
       element.style.setProperty("--rotateY", `${(x - 0.5) * 8}deg`);
-      element.style.setProperty("--x", `${x * 100}%`);
-      element.style.setProperty("--y", `${y * 100}%`);
+
+      element.style.setProperty("--x", `${x * rect.width}px`);
+element.style.setProperty("--y", `${y * rect.height}px`);
+
       frameRef.current = null;
     });
   };
@@ -50,49 +51,76 @@ function FloatingPortrait({ src, alt }) {
     element.style.setProperty("--rotateY", "0deg");
   };
 
-  return (
-    <div className="flex justify-center lg:justify-end">
-      <div className="[perspective:1000px]">
+
+return (
+  <div className="flex justify-center lg:justify-end">
+    <div className="[perspective:1000px]">
+      <div
+        ref={portraitRef}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={resetTilt}
+        className="group relative rounded-full
+                   transition-transform duration-300 ease-out
+                   motion-reduce:transform-none"
+        style={{
+          transform:
+            "rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg))",
+        }}
+      >
+        {/* Small light following the cursor */}
         <div
-          ref={portraitRef}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={resetTilt}
-          className="group relative rounded-full p-1
-                     transition-transform duration-300 ease-out
-                     motion-reduce:transform-none"
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-2
+                     rounded-full opacity-0 blur-xl
+                     transition-opacity duration-300
+                     group-hover:opacity-70"
           style={{
-            transform:
-              "rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg))",
+            background: `radial-gradient(
+              75px circle at var(--x, 50%) var(--y, 50%),
+              rgba(34,211,238,0.6),
+              rgba(139,92,246,0.4) 50%,
+              transparent 85%
+            )`,
           }}
+        />
+
+        {/* Thin border */}
+        <div
+          className="relative rounded-full bg-white/20 p-[2px]"
         >
-          {/* Cursor-following glow */}
+          {/* Cursor-following colourful border */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -inset-3
-                       rounded-full opacity-30 blur-2xl
+            className="pointer-events-none absolute inset-0
+                       rounded-full opacity-0
                        transition-opacity duration-300
-                       group-hover:opacity-70"
+                       group-hover:opacity-100"
             style={{
-              background:
-                "radial-gradient(circle at var(--x, 50%) var(--y, 50%), #22d3ee, #8b5cf6 55%, transparent 80%)",
+              background: `radial-gradient(
+                100px circle at var(--x, 50%) var(--y, 50%),
+                rgba(34,211,238,1),
+                rgba(139,92,246,0.9) 40%,
+                rgba(244,114,182,0.7) 70%,
+                transparent 100%
+              )`,
             }}
           />
 
-          {/* Gradient border */}
-          <div className="relative rounded-full bg-gradient-to-br from-cyan-400 via-violet-500 to-pink-500 p-1">
-            <img
-              src={src}
-              alt={alt}
-              width="320"
-              height="320"
-              className="aspect-square w-56 rounded-full object-cover
-                         sm:w-72 lg:w-80"
-            />
-          </div>
+          <img
+            src={src}
+            alt={alt}
+            width="320"
+            height="320"
+            className="relative block aspect-square w-56
+                       rounded-full object-cover
+                       sm:w-72 lg:w-80"
+          />
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default FloatingPortrait;
