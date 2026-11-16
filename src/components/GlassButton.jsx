@@ -2,7 +2,13 @@ import { Link } from "react-router";
 import { HiArrowUpRight } from "react-icons/hi2";
 
 
-function GlowButton({ text, to , download = false}) {
+function GlowButton({
+  text,
+  to,
+  download = false,
+  submit = false,
+  wide = false,
+}) {
   const moveGlow = (e) => {
     const button = e.currentTarget;
     const rect = button.getBoundingClientRect();
@@ -56,16 +62,37 @@ function GlowButton({ text, to , download = false}) {
 
       {/* Glass button */}
    
-{download ? (
+
+{submit ? (
+  <button
+    type="submit"
+   className={`relative z-10 inline-flex cursor-pointer
+           items-center justify-center gap-3
+           rounded-[15px] bg-blue-950/95
+           px-10 py-4 font-alan text-base font-semibold
+           text-slate-100 backdrop-blur-xl
+           transition-all duration-300
+           hover:bg-blue-900/95 active:scale-[0.98]
+           focus-visible:outline-2
+           focus-visible:outline-offset-4
+           focus-visible:outline-violet-400
+           ${wide ? "w-full" : ""}`}
+  >
+    <span>{text}</span>
+    <HiArrowUpRight
+      aria-hidden="true"
+      className="text-lg"
+    />
+  </button>
+) : download ? (
   <a
     href={to}
     download
-    className="relative z-10 inline-flex items-center gap-3 rounded-[15px]
-               bg-slate-100/90 px-6 py-3 font-alan font-medium text-slate-800
-               backdrop-blur-xl transition-all duration-300 hover:bg-slate-100
-               active:scale-[0.98] dark:bg-blue-950/95 dark:text-slate-200
-               dark:hover:bg-blue-900/95 focus-visible:outline-2
-               focus-visible:outline-offset-4 focus-visible:outline-violet-400"
+    className="relative z-10 inline-flex items-center gap-3
+               rounded-[15px] bg-blue-950/95 px-6 py-3
+               font-alan font-medium text-slate-100
+               backdrop-blur-xl transition-all duration-300
+               hover:bg-blue-900/95"
   >
     <span>{text}</span>
     <HiArrowUpRight aria-hidden="true" className="text-lg" />
@@ -73,21 +100,22 @@ function GlowButton({ text, to , download = false}) {
 ) : (
   <Link
     to={to}
-    className="relative z-10 inline-flex items-center gap-3 rounded-[15px]
-               bg-slate-100/90 px-6 py-3 font-alan font-medium text-slate-800
-               backdrop-blur-xl transition-all duration-300 hover:bg-slate-100
-               active:scale-[0.98] dark:bg-blue-950/95 dark:text-slate-200
-               dark:hover:bg-blue-900/95 focus-visible:outline-2
-               focus-visible:outline-offset-4 focus-visible:outline-violet-400"
+    className="relative z-10 inline-flex items-center gap-3
+               rounded-[15px] bg-blue-950/95 px-6 py-3
+               font-alan font-medium text-slate-100
+               backdrop-blur-xl transition-all duration-300
+               hover:bg-blue-900/95"
   >
     <span>{text}</span>
     <HiArrowUpRight
       aria-hidden="true"
       className="text-lg transition-transform duration-300
-                 group-hover:translate-x-1 group-hover:-translate-y-1"
+                 group-hover:translate-x-1
+                 group-hover:-translate-y-1"
     />
   </Link>
 )}
+
 
     </div>
   );
