@@ -188,7 +188,7 @@ const EXTRUSION_LAYERS = 10;
 
 
 // Animation timing in milliseconds.
-const INITIAL_DELAY = 1200;
+const INITIAL_DELAY = 300;
 const ICON_INTERVAL = 160;
 const GROUP_HOLD = 550;
 const FADE_DURATION = 500;

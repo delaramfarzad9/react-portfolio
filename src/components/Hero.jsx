@@ -20,7 +20,7 @@ function Hero() {
     <div
       className="relative z-10 grid items-center  gap-12 xl:grid-cols-[minmax(0,1fr)_420px] "
     >
-      {/* LEFT — Your existing Hero content */}
+      {/* LEFT —  existing Hero content */}
       <div className="min-w-0">
         <div className="mb-8 flex items-center gap-3">
           <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
