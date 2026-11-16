@@ -6,10 +6,9 @@ import projectsData from "../data/projects";
 const filters = ["All", "React", "Next.js", "Full Stack", "HTML & CSS"];
 
 function Projects() {
-  const [projects] = useState(projectsData);
   const [activeFilter, setActiveFilter] = useState("All");
 
-  const filteredProjects = projects.filter((project) => {
+  const filteredProjects = projectsData.filter((project) => {
     switch (activeFilter) {
       case "React":
         return project.tech.includes("React");
@@ -20,11 +19,11 @@ function Projects() {
       case "Full Stack":
         return project.tech.includes("Node.js");
 
-     case "HTML & CSS":
-  return (
-    project.tech.includes("HTML5") ||
-    project.tech.includes("CSS3")
-  );
+      case "HTML & CSS":
+        return (
+          project.tech.includes("HTML5") ||
+          project.tech.includes("CSS3")
+        );
 
       default:
         return true;
@@ -36,54 +35,73 @@ function Projects() {
       aria-labelledby="projects-heading"
       className="mx-auto max-w-7xl py-10"
     >
-      <p className="mb-4 font-sora text-sm tracking-widest text-violet-300">
+      <p className="mb-4 font-sora text-sm tracking-widest text-accent">
         SELECTED WORK
       </p>
 
       <h1
         id="projects-heading"
-        className="font-alan text-4xl font-bold text-slate-100 sm:text-5xl"
+        className="font-alan text-4xl font-bold text-primary sm:text-5xl"
       >
-        My <span className="text-violet-400">Projects.</span>
+        My <span className="text-accent">Projects.</span>
       </h1>
 
-      <p className="mt-5 max-w-2xl font-sora leading-8 text-slate-300">
+      <p className="mt-5 max-w-2xl font-sora leading-8 text-secondary">
         A collection of projects combining frontend development,
         thoughtful design, responsive interfaces and interactive
         user experiences.
       </p>
 
+      {/* Project filters */}
       <div
         role="group"
         aria-label="Filter projects"
         className="mt-10 flex flex-wrap gap-3"
       >
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            onClick={() => setActiveFilter(filter)}
-            aria-pressed={activeFilter === filter}
-            className={`rounded-xl border px-4 py-2.5
-                        font-alan text-sm transition-all duration-300
-                        focus-visible:outline-2
-                        focus-visible:outline-offset-4
-                        focus-visible:outline-violet-400
-                        ${
-                          activeFilter === filter
-                            ? "border-violet-400 bg-violet-500/20 text-white"
-                            : "border-white/15 bg-white/5 text-slate-300 hover:border-violet-400/50 hover:text-white"
-                        }`}
-          >
-            {filter}
-          </button>
-        ))}
+        {filters.map((filter) => {
+          const isActive = activeFilter === filter;
+
+          return (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => setActiveFilter(filter)}
+              aria-pressed={isActive}
+              className={`cursor-pointer rounded-xl border
+                          px-4 py-2.5 font-alan text-sm
+                          transition-all duration-300
+                          focus-visible:outline-2
+                          focus-visible:outline-offset-4
+                          focus-visible:outline-accent
+                          ${
+                            isActive
+                              ? `border-violet-500/60
+                                 bg-violet-100 text-violet-800
+                                 shadow-sm shadow-violet-500/10
+                                 dark:border-violet-400
+                                 dark:bg-violet-500/20
+                                 dark:text-white`
+                              : `border-theme-border
+                                 bg-glass text-secondary
+                                 hover:border-accent/50
+                                 hover:bg-hover-surface
+                                 hover:text-primary`
+                          }`}
+            >
+              {filter}
+            </button>
+          );
+        })}
       </div>
 
-      <p className="mt-6 font-sora text-sm text-slate-400" aria-live="polite">
-        Showing {filteredProjects.length} of {projects.length} projects
+      <p
+        className="mt-6 font-sora text-sm text-subtle"
+        aria-live="polite"
+      >
+        Showing {filteredProjects.length} of {projectsData.length} projects
       </p>
 
+      {/* Project grid */}
       <div className="mt-6 grid gap-8 md:grid-cols-2">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.title} project={project} />

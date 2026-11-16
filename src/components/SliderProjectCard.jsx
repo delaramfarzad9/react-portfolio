@@ -25,58 +25,75 @@ function SliderProjectCard({ project }) {
     );
   }
 
+  const cardStyles = `
+    group relative flex h-full flex-col
+    rounded-2xl bg-slate-300/70 p-px
+    shadow-lg shadow-slate-900/5
+    transition-all duration-300
+    hover:-translate-y-1
+    hover:shadow-[0_16px_40px_rgba(139,92,246,0.10)]
+    dark:bg-white/15 dark:shadow-black/10
+    dark:hover:shadow-[0_16px_40px_rgba(139,92,246,0.15)]
+    motion-reduce:hover:translate-y-0
+  `;
+
   const content = (
     <>
-      {/* Cursor-following border */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0
-                   rounded-2xl opacity-0
-                   transition-opacity duration-300
-                   group-hover:opacity-100
-                   group-active:opacity-100
-                   group-focus-visible:opacity-100"
-        style={{
-          background: `radial-gradient(
-            130px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,1),
-            rgba(139,92,246,0.9) 35%,
-            rgba(244,114,182,0.7) 65%,
-            transparent 100%
-          )`,
-        }}
-      />
+     {/* Cursor-following colourful border */}
+<span
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0
+             rounded-2xl opacity-0
+             transition-opacity duration-300
+             group-hover:opacity-90
+             group-active:opacity-90
+             group-focus-visible:opacity-90"
+  style={{
+    background: `radial-gradient(
+      130px circle at var(--x, 50%) var(--y, 50%),
+      rgba(99,102,241,0.95) 0%,
+      rgba(79,70,229,0.9) 35%,
+      rgba(67,56,202,0.8) 65%,
+      transparent 100%
+    )`,
+  }}
+/>
 
-      {/* External glow */}
+      {/* Subtle external glow */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-2
-                   rounded-3xl opacity-0 blur-xl
+        className="pointer-events-none absolute -inset-1
+                   rounded-2xl opacity-0 blur-md
                    transition-opacity duration-300
-                   group-hover:opacity-60
-                   group-active:opacity-60"
+                   group-hover:opacity-35
+                   group-active:opacity-35
+                   group-focus-visible:opacity-35
+                   dark:group-hover:opacity-45"
         style={{
           background: `radial-gradient(
             85px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,0.5),
-            rgba(139,92,246,0.35) 50%,
+            rgba(34,211,238,0.3),
+            rgba(139,92,246,0.25) 50%,
             transparent 85%
           )`,
         }}
       />
 
-      {/* Card content */}
+      {/* Glass card content */}
       <span
-        className="relative z-10 flex h-full flex-col
+        className="relative   z-10 flex h-full flex-col
                    overflow-hidden rounded-[15px]
-                   bg-blue-950/95
+                   bg-white/90 backdrop-blur-md
                    transition-colors duration-300
-                   group-hover:bg-blue-900/95"
+                   group-hover:bg-indigo-50/90
+                   dark:bg-blue-950/95
+                   dark:group-hover:bg-blue-900/95"
       >
-        {/* Screenshot */}
+        {/* Project screenshot */}
         <span
           className="flex aspect-video items-center
-                     justify-center bg-blue-900/30 p-3"
+                     justify-center bg-slate-100/90 p-3
+                     dark:bg-blue-900/30"
         >
           <img
             src={project.img}
@@ -89,44 +106,55 @@ function SliderProjectCard({ project }) {
           />
         </span>
 
-        {/* Details */}
+        {/* Project details */}
         <span className="flex flex-1 flex-col p-5">
           <span
             className="font-alan text-lg font-semibold
-                       text-slate-100
+                       text-primary
                        transition-colors duration-300
-                       group-hover:text-violet-300"
+                       group-hover:text-accent"
           >
             {project.title}
           </span>
 
+          {/* Technology tags */}
           <span className="mt-4 flex flex-wrap gap-2">
             {project.tech.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="rounded-lg border border-white/15
-                           bg-white/5 px-2.5 py-1
-                           font-sora text-xs text-slate-300"
+                className="rounded-lg border border-theme-border
+                           bg-slate-100/80 px-2.5 py-1
+                           font-sora text-xs text-secondary
+                           transition-colors duration-300
+                           group-hover:border-accent/30
+                           dark:border-white/15
+                           dark:bg-white/5
+                           dark:text-slate-300"
               >
                 {tech}
               </span>
             ))}
           </span>
 
-          <span
-            className="mt-auto flex items-center gap-2
-                       pt-5 font-alan text-sm
-                       text-violet-300"
-          >
-            {project.demo ? "View Live Project" : "View on GitHub"}
+          {/* Project link */}
+          {projectUrl && (
+            <span
+              className="mt-auto flex items-center gap-2
+                         pt-5 font-alan text-sm text-accent"
+            >
+              {project.demo
+                ? "View Live Project"
+                : "View on GitHub"}
 
-            <FiArrowUpRight
-              aria-hidden="true"
-              className="transition-transform duration-300
-                         group-hover:translate-x-1
-                         group-hover:-translate-y-1"
-            />
-          </span>
+              <FiArrowUpRight
+                aria-hidden="true"
+                className="transition-transform duration-300
+                           group-hover:translate-x-1
+                           group-hover:-translate-y-1
+                           motion-reduce:transform-none"
+              />
+            </span>
+          )}
         </span>
       </span>
     </>
@@ -134,10 +162,7 @@ function SliderProjectCard({ project }) {
 
   if (!projectUrl) {
     return (
-      <div
-        className="relative flex h-full flex-col
-                   rounded-2xl bg-white/15 p-px"
-      >
+      <div className={cardStyles} ref={cardRef} onPointerMove={moveGlow}>
         {content}
       </div>
     );
@@ -153,17 +178,11 @@ function SliderProjectCard({ project }) {
         project.demo ? "live demo" : "GitHub repository"
       }`}
       onPointerMove={moveGlow}
-      className="group relative flex h-full flex-col
-                 rounded-2xl bg-white/15 p-px
-                 shadow-lg shadow-black/10
-                 transition-all duration-300
-                 hover:-translate-y-1
-                 hover:shadow-[0_16px_40px_rgba(139,92,246,0.15)]
-                 active:scale-[0.98]
-                 focus-visible:outline-2
-                 focus-visible:outline-offset-4
-                 focus-visible:outline-violet-400
-                 motion-reduce:hover:translate-y-0"
+      className={`${cardStyles}
+                  cursor-pointer active:scale-[0.98]
+                  focus-visible:outline-2
+                  focus-visible:outline-offset-4
+                  focus-visible:outline-accent`}
     >
       {content}
     </a>

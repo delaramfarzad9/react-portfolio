@@ -1,8 +1,9 @@
 
 import { useEffect, useState } from "react";
-import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiGithub } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import projects from "../data/projects";
 import SliderProjectCard from "./SliderProjectCard";
+
 const featuredProjects = projects;
 const total = featuredProjects.length;
 
@@ -12,13 +13,11 @@ const slides = [
   ...featuredProjects.slice(0, 3),
 ];
 
-
 function ProjectSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [animate, setAnimate] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
-  
 
   useEffect(() => {
     const media = window.matchMedia(
@@ -46,6 +45,7 @@ function ProjectSlider() {
 
   function next() {
     if (index >= total) return;
+
     setAnimate(true);
     setIndex((prev) => prev + 1);
   }
@@ -56,8 +56,12 @@ function ProjectSlider() {
   }
 
   function handleTransitionEnd(e) {
-    if (e.target !== e.currentTarget ||
-        e.propertyName !== "transform") return;
+    if (
+      e.target !== e.currentTarget ||
+      e.propertyName !== "transform"
+    ) {
+      return;
+    }
 
     if (index >= total) {
       setAnimate(false);
@@ -66,6 +70,23 @@ function ProjectSlider() {
   }
 
   if (!total) return null;
+
+  const arrowStyles = `
+    flex h-10 w-10 cursor-pointer items-center
+    justify-center rounded-xl
+    border border-theme-border
+    bg-white/80 text-secondary
+    shadow-sm shadow-slate-900/5
+    transition-colors duration-300
+    hover:border-accent/50
+    hover:bg-violet-50 hover:text-accent
+    dark:bg-white/5 dark:text-slate-200
+    dark:shadow-none
+    dark:hover:bg-violet-500/15
+    focus-visible:outline-2
+    focus-visible:outline-offset-2
+    focus-visible:outline-accent
+  `;
 
   return (
     <section
@@ -85,31 +106,26 @@ function ProjectSlider() {
       {/* Heading and controls */}
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="font-sora text-xs tracking-widest text-violet-300">
+          <p className="font-sora text-xs tracking-widest text-accent">
             FEATURED WORK
           </p>
 
           <h2
             id="featured-heading"
-            className="mt-2 font-alan text-2xl font-bold text-slate-100 sm:text-3xl"
+            className="mt-2 font-alan text-2xl font-bold
+                       text-primary sm:text-3xl"
           >
-            Selected <span className="text-violet-400">Projects.</span>
+            Selected <span className="text-accent">Projects.</span>
           </h2>
         </div>
 
+        {/* Navigation arrows */}
         <div className="flex gap-2">
           <button
             type="button"
             onClick={previous}
             aria-label="Previous project"
-            className="flex h-10 w-10 cursor-pointer items-center
-                       justify-center rounded-xl border border-white/15
-                       bg-white/5 text-slate-200
-                       transition-colors hover:border-violet-400/50
-                       hover:bg-violet-500/15
-                       focus-visible:outline-2
-                       focus-visible:outline-offset-2
-                       focus-visible:outline-violet-400"
+            className={arrowStyles}
           >
             <FiArrowLeft aria-hidden="true" />
           </button>
@@ -118,14 +134,7 @@ function ProjectSlider() {
             type="button"
             onClick={next}
             aria-label="Next project"
-            className="flex h-10 w-10 cursor-pointer items-center
-                       justify-center rounded-xl border border-white/15
-                       bg-white/5 text-slate-200
-                       transition-colors hover:border-violet-400/50
-                       hover:bg-violet-500/15
-                       focus-visible:outline-2
-                       focus-visible:outline-offset-2
-                       focus-visible:outline-violet-400"
+            className={arrowStyles}
           >
             <FiArrowRight aria-hidden="true" />
           </button>
@@ -133,12 +142,13 @@ function ProjectSlider() {
       </div>
 
       {/* Carousel viewport */}
-      <div
-        className="w-full overflow-hidden
-                   [--visible:1] md:[--visible:2] 2xl:[--visible:3]"
-        aria-roledescription="carousel"
-        aria-label="Project previews"
-      >
+    <div
+  className="w-full overflow-hidden pt-3 pb-5
+             [--visible:1] md:[--visible:2]
+             2xl:[--visible:3]"
+  aria-roledescription="carousel"
+  aria-label="Project previews"
+>
         <div
           className={`flex w-full ${
             animate && !reducedMotion
@@ -150,27 +160,28 @@ function ProjectSlider() {
           }}
           onTransitionEnd={handleTransitionEnd}
         >
-         
-{slides.map((project, i) => (
-  <div
-    key={`${project.title}-${i}`}
-    className="w-full shrink-0 px-2 md:w-1/2 2xl:w-1/3"
-  >
-    <SliderProjectCard project={project} />
-  </div>
-))}
-
+          {slides.map((project, i) => (
+            <div
+              key={`${project.title}-${i}`}
+              className="w-full shrink-0 px-2
+                         md:w-1/2 2xl:w-1/3"
+            >
+              <SliderProjectCard project={project} />
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Slide position */}
+      {/* Pagination dots */}
       <div className="mt-5 flex items-center justify-center gap-2">
         {featuredProjects.map((project, i) => (
           <button
             key={project.title}
             type="button"
             aria-label={`Go to ${project.title}`}
-            aria-current={index % total === i ? "true" : undefined}
+            aria-current={
+              index % total === i ? "true" : undefined
+            }
             onClick={() => {
               setAnimate(true);
               setIndex(i);
@@ -179,10 +190,14 @@ function ProjectSlider() {
                         transition-all duration-300
                         focus-visible:outline-2
                         focus-visible:outline-offset-4
-                        focus-visible:outline-violet-400 ${
+                        focus-visible:outline-accent
+                        ${
                           index % total === i
-                            ? "w-7 bg-violet-400"
-                            : "w-2 bg-white/25 hover:bg-white/50"
+                            ? "w-7 bg-accent"
+                            : `w-2 bg-slate-300
+                               hover:bg-violet-400/60
+                               dark:bg-white/25
+                               dark:hover:bg-white/50`
                         }`}
           />
         ))}

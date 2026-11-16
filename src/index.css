@@ -133,7 +133,84 @@
   --font-alan: 'Alan Sans', sans-serif;
   --font-space: 'Space Mono', monospace;
 }
-body{@apply text-gray-100}
+
+
+/* Theme tokens */
+:root {
+  /* Light */
+  --page-bg: var(--color-gray-100);
+  --surface-bg: var(--color-gray-50);
+  --glass-bg: rgb(255 255 255 / 75%);
+
+  --text-primary: var(--color-slate-900);
+  --text-secondary: var(--color-slate-600);
+  --text-subtle: var(--color-slate-600);
+
+  --border-color: rgb(51 65 85 / 15%);
+  --accent-color: var(--color-indigo-700);
+
+  --tag-bg: var(--color-violet-50);
+  --input-bg: var(--color-white);
+  --hover-bg: var(--color-indigo-50);
+  --hero-highlight: var(--color-indigo-700);
+--hero-glow: rgb(139 92 246 / 7%);
+  --skill-glow-1: rgba(79, 70, 229, 0.95);
+  --skill-glow-2: rgba(67, 56, 202, 0.9);
+  --skill-glow-3: rgba(55, 48, 163, 0.7);
+
+  --skill-glow-outer-1: rgba(79, 70, 229, 0.3);
+  --skill-glow-outer-2: rgba(67, 56, 202, 0.25);
+}
+
+.dark {
+  /* Dark */
+  --page-bg: var(--color-blue-950);
+  --surface-bg: var(--color-blue-900);
+  --glass-bg: rgb(255 255 255 / 5%);
+
+  --text-primary: var(--color-slate-100);
+  --text-secondary: var(--color-slate-300);
+  --text-subtle: var(--color-slate-400);
+
+  --border-color: rgb(255 255 255 / 15%);
+  --accent-color: var(--color-violet-400);
+
+  --tag-bg: rgb(255 255 255 / 5%);
+  --input-bg: rgb(255 255 255 / 5%);
+  --hover-bg: rgb(139 92 246 / 10%);
+  --hero-highlight: var(--color-indigo-500);
+--hero-glow: rgb(139 92 246 / 10%);
+ --skill-glow-1: rgba(34, 211, 238, 1);
+  --skill-glow-2: rgba(139, 92, 246, 0.9);
+  --skill-glow-3: rgba(244, 114, 182, 0.7);
+
+  --skill-glow-outer-1: rgba(34, 211, 238, 0.3);
+  --skill-glow-outer-2: rgba(139, 92, 246, 0.25);
+}
+
+/* Tailwind v4 semantic utilities */
+@theme inline {
+  --color-page: var(--page-bg);
+  --color-surface: var(--surface-bg);
+  --color-glass: var(--glass-bg);
+
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-subtle: var(--text-subtle);
+
+  --color-theme-border: var(--border-color);
+  --color-accent: var(--accent-color);
+
+  --color-tag: var(--tag-bg);
+  --color-input: var(--input-bg);
+  --color-hover-surface: var(--hover-bg);
+  --color-hero-highlight: var(--hero-highlight);
+--color-hero-glow: var(--hero-glow);
+}
+
+body {
+  @apply bg-page text-primary;
+}
 @keyframes techFloat {
   0%,
   100% {

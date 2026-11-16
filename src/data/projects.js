@@ -72,7 +72,7 @@ const projects = [
 {
   title: "Dela Codes — Personal Developer Portfolio",
   img: delaCodesImg,
-  status: "Completed",
+ 
   description: `· Next.js & React — Built and deployed a responsive personal portfolio using reusable components and modern frontend architecture.
 · Tailwind CSS — Created responsive layouts with consistent styling across different screen sizes.
 · Framer Motion — Added animations and interactive transitions to improve the browsing experience.
@@ -130,6 +130,7 @@ const projects = [
 
   {
     title: "Admin Dashboard",
+    status: "In Progress",
     img: dashboardImg,
     description:
       "A responsive admin dashboard built with React and Tailwind CSS, featuring interactive charts, data tables, and basic user management functionality. Designed with a clean layout and reusable components for a smooth and efficient user experience.",
@@ -145,7 +146,7 @@ const projects = [
   {
     title: "SafeWeb — Cybersecurity SaaS Landing Page",
     img: safewebImg,
-    status: "Completed",
+    
     description: `· HTML5 & CSS3 — Built a responsive cybersecurity SaaS landing page without JavaScript.
 · CSS Architecture — Used design tokens, CSS Grid, Flexbox, and fluid typography.
 · Mobile Navigation — Implemented a CSS-only mobile menu using the checkbox hack.

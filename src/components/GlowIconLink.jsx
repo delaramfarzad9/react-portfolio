@@ -32,58 +32,61 @@ function GlowIconLink({ href, label, children }) {
       aria-label={label}
       onPointerMove={moveGlow}
       className="group relative inline-flex rounded-xl
-                 bg-white/20 p-px
+                 bg-slate-300/60 p-px dark:bg-white/15
                  transition-transform duration-300
-                 hover:-translate-y-1
+                 hover:-translate-y-0.5
                  motion-reduce:hover:translate-y-0
                  focus-visible:outline-2
                  focus-visible:outline-offset-4
-                 focus-visible:outline-violet-400"
+                 focus-visible:outline-accent"
     >
-      {/* Cursor-following border */}
+      {/* Cursor-following colourful border */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0
                    rounded-xl opacity-0
                    transition-opacity duration-300
-                   group-hover:opacity-100
-                   group-focus-visible:opacity-100"
+                   group-hover:opacity-70
+                   group-active:opacity-70
+                   group-focus-visible:opacity-70"
         style={{
           background: `radial-gradient(
-            85px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,1),
-            rgba(139,92,246,0.9) 40%,
-            rgba(244,114,182,0.7) 70%,
+            65px circle at var(--x, 50%) var(--y, 50%),
+            rgba(34,211,238,0.7),
+            rgba(139,92,246,0.6) 45%,
+            rgba(244,114,182,0.35) 75%,
             transparent 100%
           )`,
         }}
       />
 
-      {/* Soft external light */}
+      {/* Subtle external glow */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-2
-                   rounded-2xl opacity-0 blur-xl
+        className="pointer-events-none absolute -inset-1
+                   rounded-xl opacity-0 blur-md
                    transition-opacity duration-300
-                   group-hover:opacity-60"
+                   group-hover:opacity-40
+                   group-active:opacity-40
+                   group-focus-within:opacity-40"
         style={{
           background: `radial-gradient(
-            75px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,0.5),
-            rgba(139,92,246,0.35) 50%,
-            transparent 85%
+            45px circle at var(--x, 50%) var(--y, 50%),
+            rgba(139,92,246,0.35),
+            rgba(34,211,238,0.2) 45%,
+            transparent 80%
           )`,
         }}
       />
 
-      {/* Icon */}
+      {/* Theme-aware glass icon */}
       <span
         className="relative z-10 flex h-12 w-12
                    items-center justify-center rounded-[11px]
-                   bg-blue-950/95 text-slate-300
+                   bg-surface text-secondary
                    transition-colors duration-300
-                   group-hover:bg-blue-900/95
-                   group-hover:text-violet-300"
+                   group-hover:bg-hover-surface
+                   group-hover:text-accent"
       >
         {children}
       </span>

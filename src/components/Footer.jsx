@@ -1,31 +1,31 @@
+
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import GlowIconLink from "./GlowIconLink";
 
 function Footer() {
   return (
-    <footer className="font-alan text-xs text-gray-300">
-      <div className="flex items-center gap-5">
-        <a
+    <footer className="font-alan text-xs text-secondary">
+      {/* Social media icons */}
+      <div className="flex items-center gap-4">
+        <GlowIconLink
           href="https://github.com/delaramfarzad9"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub profile"
-          className="text-xl transition-all duration-300 hover:-translate-y-1 hover:text-violet-500"
+          label="Visit my GitHub profile"
         >
-          <FaGithub aria-hidden="true" />
-        </a>
+          <FaGithub size={22} aria-hidden="true" />
+        </GlowIconLink>
 
-        <a
-          href="https://www.linkedin.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn profile"
-          className="text-xl transition-all duration-300 hover:-translate-y-1 hover:text-violet-500"
+        <GlowIconLink
+          href="https://www.linkedin.com/in/delaram-farzad"
+          label="Visit my LinkedIn profile"
         >
-          <FaLinkedin aria-hidden="true" />
-        </a>
+          <FaLinkedin size={22} aria-hidden="true" />
+        </GlowIconLink>
       </div>
 
-      <p className="mt-5 font-space">© 2026 Dela</p>
+      {/* Copyright */}
+      <p className="mt-5 font-space text-xs text-secondary">
+        © 2026 Dela
+      </p>
     </footer>
   );
 }

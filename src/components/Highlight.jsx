@@ -1,7 +1,7 @@
 
 function Highlight({ children }) {
   return (
-    <span className="font-semibold text-violet-400">
+    <span className="font-semibold text-accent">
       {children}
     </span>
   );

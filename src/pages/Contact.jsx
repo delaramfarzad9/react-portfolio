@@ -62,8 +62,17 @@ function Contact() {
     }
   }
 
-  const inputStyles =
-    "w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-sora text-sm text-white placeholder:text-slate-500 outline-none transition-colors focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20";
+  const inputStyles = `
+    w-full rounded-xl border border-theme-border
+    bg-white/80 px-4 py-3
+    font-sora text-sm text-primary
+    placeholder:text-subtle
+    outline-none transition-all duration-300
+    hover:border-accent/40
+    focus:border-accent focus:ring-2 focus:ring-accent/15
+    aria-invalid:border-rose-500
+    dark:bg-white/5
+  `;
 
   return (
     <section
@@ -71,18 +80,18 @@ function Contact() {
       className="mx-auto w-full max-w-6xl py-8 lg:py-10"
     >
       {/* Heading */}
-      <p className="mb-4 font-sora text-sm tracking-widest text-violet-300">
+      <p className="mb-4 font-sora text-sm tracking-widest text-accent">
         GET IN TOUCH
       </p>
 
       <h1
         id="contact-heading"
-        className="font-alan text-4xl font-bold text-slate-100 sm:text-5xl"
+        className="font-alan text-4xl font-bold text-primary sm:text-5xl"
       >
-        Let's <span className="text-violet-400">Connect.</span>
+        Let's <span className="text-accent">Connect.</span>
       </h1>
 
-      <p className="mt-5 max-w-2xl font-sora leading-8 text-slate-300">
+      <p className="mt-5 max-w-2xl font-sora leading-8 text-secondary">
         Have a project in mind or an opportunity to discuss?
         I'd love to hear from you.
       </p>
@@ -92,11 +101,11 @@ function Contact() {
         {/* Contact information */}
         <div className="flex min-w-0 flex-col gap-6">
           <div>
-            <h2 className="font-alan text-2xl text-white">
+            <h2 className="font-alan text-2xl text-primary">
               Let's work together
             </h2>
 
-            <p className="mt-4 max-w-md font-sora leading-8 text-slate-300">
+            <p className="mt-4 max-w-md font-sora leading-8 text-secondary">
               I'm open to frontend development opportunities,
               collaborations, and creative projects.
             </p>
@@ -111,20 +120,27 @@ function Contact() {
               delaramfarzad9@gmail.com
             </GlowContactLink>
 
+            {/* Location card */}
             <div
               className="flex items-center gap-4 rounded-2xl
-                         border border-white/10 bg-white/5 p-4"
+                         border border-theme-border
+                         bg-white/80 p-4
+                         shadow-sm shadow-slate-900/5
+                         backdrop-blur-md
+                         transition-colors duration-300
+                         dark:bg-white/5 dark:shadow-none"
             >
               <span
                 className="flex h-11 w-11 shrink-0
                            items-center justify-center
-                           rounded-xl bg-violet-500/10
-                           text-violet-400"
+                           rounded-xl bg-violet-100
+                           text-accent
+                           dark:bg-violet-500/10"
               >
                 <FiMapPin size={20} aria-hidden="true" />
               </span>
 
-              <span className="font-sora text-sm text-slate-300">
+              <span className="font-sora text-sm text-secondary">
                 Leamington Spa, UK
               </span>
             </div>
@@ -156,15 +172,20 @@ function Contact() {
           onSubmit={handleSubmit}
           className="w-full min-w-0 max-w-[480px]
                      justify-self-end space-y-5
-                     rounded-3xl border border-white/15
-                     bg-white/5 p-6 shadow-xl shadow-black/20
-                     backdrop-blur-md sm:p-8"
+                     rounded-3xl border border-theme-border
+                     bg-white/85 p-6
+                     shadow-xl shadow-slate-900/5
+                     backdrop-blur-md
+                     transition-colors duration-300
+                     sm:p-8
+                     dark:bg-white/5
+                     dark:shadow-black/20"
         >
           {/* Name */}
           <div>
             <label
               htmlFor="contact-name"
-              className="mb-2 block font-sora text-sm text-slate-200"
+              className="mb-2 block font-sora text-sm text-primary"
             >
               Name *
             </label>
@@ -184,7 +205,12 @@ function Contact() {
             />
 
             {errors.name && (
-              <p id="name-error" className="mt-2 text-sm text-rose-400">
+              <p
+                id="name-error"
+                role="alert"
+                className="mt-2 font-sora text-sm text-rose-600
+                           dark:text-rose-400"
+              >
                 {errors.name}
               </p>
             )}
@@ -194,7 +220,7 @@ function Contact() {
           <div>
             <label
               htmlFor="contact-email"
-              className="mb-2 block font-sora text-sm text-slate-200"
+              className="mb-2 block font-sora text-sm text-primary"
             >
               Email *
             </label>
@@ -214,7 +240,12 @@ function Contact() {
             />
 
             {errors.email && (
-              <p id="email-error" className="mt-2 text-sm text-rose-400">
+              <p
+                id="email-error"
+                role="alert"
+                className="mt-2 font-sora text-sm text-rose-600
+                           dark:text-rose-400"
+              >
                 {errors.email}
               </p>
             )}
@@ -224,7 +255,7 @@ function Contact() {
           <div>
             <label
               htmlFor="contact-message"
-              className="mb-2 block font-sora text-sm text-slate-200"
+              className="mb-2 block font-sora text-sm text-primary"
             >
               Message *
             </label>
@@ -245,12 +276,17 @@ function Contact() {
             />
 
             {errors.message && (
-              <p id="message-error" className="mt-2 text-sm text-rose-400">
+              <p
+                id="message-error"
+                role="alert"
+                className="mt-2 font-sora text-sm text-rose-600
+                           dark:text-rose-400"
+              >
                 {errors.message}
               </p>
             )}
 
-            <p className="mt-2 text-right font-sora text-xs text-slate-400">
+            <p className="mt-2 text-right font-sora text-xs text-subtle">
               {form.message.length}/1000
             </p>
           </div>
@@ -260,8 +296,8 @@ function Contact() {
 
           {/* Submit */}
           <div className="flex justify-center pt-2">
-            <div className="w-full max-w-[300px] [&>div]:w-full [&>div>button]:w-full">
-              <GlowButton text="Send Message" submit />
+            <div className="w-full max-w-[300px]">
+              <GlowButton text="Send Message" submit wide />
             </div>
           </div>
         </form>
