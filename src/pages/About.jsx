@@ -36,7 +36,7 @@ function About() {
   return (
     <section
       aria-labelledby="about-heading"
-      className="mx-auto max-w-6xl py-10 text-primary"
+      className="mx-auto max-w-6xl pt-2 pb-5 md:py-10 text-primary"
     >
       {/* Introduction */}
       <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -104,7 +104,7 @@ function About() {
       </div>
 
       {/* Skills */}
-      <section aria-labelledby="skills-heading" className="mt-24">
+      <section aria-labelledby="skills-heading" className="mt-10 sm:mt-15 md:mt-24">
         <p className="mb-3 font-sora text-sm tracking-widest text-accent">
           MY TOOLKIT
         </p>

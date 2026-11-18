@@ -33,7 +33,7 @@ function Projects() {
   return (
     <section
       aria-labelledby="projects-heading"
-      className="mx-auto max-w-7xl py-10"
+      className="mx-auto max-w-7xl pt-2 pb-5 md:py-10"
     >
       <p className="mb-4 font-sora text-sm tracking-widest text-accent">
         SELECTED WORK

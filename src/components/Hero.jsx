@@ -7,9 +7,12 @@ function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative flex min-h-[75vh]
-                 flex-col justify-center py-16
-                 text-primary"
+      className="relative flex min-h-0 flex-col
+             justify-start pt-2 pb-8
+             text-primary
+             sm:pt-8 sm:pb-12
+             xl:min-h-[75vh] xl:justify-center
+             xl:py-16"
     >
       {/* Decorative background glow */}
       <div

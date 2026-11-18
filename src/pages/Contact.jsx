@@ -15,20 +15,24 @@ const initialForm = {
 function Contact() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
+  const [isSending, setIsSending] = useState(false);
+const [submitStatus, setSubmitStatus] = useState(null);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+ function handleChange(e) {
+  const { name, value } = e.target;
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  setForm((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
 
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
-  }
+  setErrors((prev) => ({
+    ...prev,
+    [name]: "",
+  }));
+
+  setSubmitStatus(null);
+}
 
   function validateForm() {
     const newErrors = {};
@@ -53,14 +57,62 @@ function Contact() {
     return newErrors;
   }
 
-  function handleSubmit(e) {
-    const newErrors = validateForm();
+ 
+async function handleSubmit(e) {
+  e.preventDefault();
 
-    if (Object.keys(newErrors).length > 0) {
-      e.preventDefault();
-      setErrors(newErrors);
-    }
+  if (isSending) return;
+
+  const newErrors = validateForm();
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    setSubmitStatus(null);
+    return;
   }
+
+  setIsSending(true);
+  setSubmitStatus(null);
+
+  try {
+    const response = await fetch(
+      "https://formsubmit.co/ajax/delaramfarzad9@gmail.com",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+          _subject: "New Portfolio Contact Message",
+          _captcha: "false",
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (
+      !response.ok ||
+      (data.success !== true && data.success !== "true")
+    ) {
+      throw new Error(data.message || "Submission failed");
+    }
+
+    setSubmitStatus("success");
+    setForm(initialForm);
+    setErrors({});
+  } catch (error) {
+    console.error("Contact form submission failed:", error);
+    setSubmitStatus("error");
+  } finally {
+    setIsSending(false);
+  }
+}
+
 
   const inputStyles = `
     w-full rounded-xl border border-theme-border
@@ -77,7 +129,7 @@ function Contact() {
   return (
     <section
       aria-labelledby="contact-heading"
-      className="mx-auto w-full max-w-6xl py-8 lg:py-10"
+      className="mx-auto w-full max-w-6xl  pt-2 pb-5 lg:py-10"
     >
       {/* Heading */}
       <p className="mb-4 font-sora text-sm tracking-widest text-accent">
@@ -166,8 +218,7 @@ function Contact() {
 
         {/* Contact form */}
         <form
-          action="https://formsubmit.co/delaramfarzad9@gmail.com"
-          method="POST"
+        
           noValidate
           onSubmit={handleSubmit}
           className="w-full min-w-0 max-w-[480px]
@@ -291,15 +342,51 @@ function Contact() {
             </p>
           </div>
 
-          {/* FormSubmit */}
-          <input type="hidden" name="_captcha" value="false" />
+          
+{/* Submit button */}
+<div className="flex justify-center pt-2">
+  <div className="w-full max-w-[300px]">
+    <GlowButton
+      text={isSending ? "Sending..." : "Send Message"}
+      submit
+      wide
+    />
+  </div>
+</div>
 
-          {/* Submit */}
-          <div className="flex justify-center pt-2">
-            <div className="w-full max-w-[300px]">
-              <GlowButton text="Send Message" submit wide />
-            </div>
-          </div>
+{/* Submission feedback */}
+{submitStatus === "success" && (
+  <div
+    role="status"
+    aria-live="polite"
+    className="rounded-xl border border-emerald-500/25
+               bg-emerald-50 px-4 py-4
+               text-center font-sora text-sm
+               text-emerald-800
+               dark:bg-emerald-500/10
+               dark:text-emerald-300"
+  >
+    Your message was sent successfully!
+    I'll get back to you as soon as possible.
+  </div>
+)}
+
+{submitStatus === "error" && (
+  <div
+    role="alert"
+    className="rounded-xl border border-rose-500/25
+               bg-rose-50 px-4 py-4
+               text-center font-sora text-sm
+               text-rose-700
+               dark:bg-rose-500/10
+               dark:text-rose-300"
+  >
+    Sorry, your message couldn't be sent.
+    Please try again or contact me by email.
+  </div>
+)}
+
+
         </form>
       </div>
     </section>

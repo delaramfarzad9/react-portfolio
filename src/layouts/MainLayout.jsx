@@ -37,9 +37,9 @@ function MainLayout() {
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         
         {/* Mobile navigation */}
-        <div className="p-6 lg:hidden">
-          <Navbar />
-        </div>
+<div className="relative z-50 lg:hidden">
+  <Navbar />
+</div>
 
         {/* Page content */}
         <main className="flex-1 p-6 md:p-10 lg:p-16">
@@ -48,7 +48,9 @@ function MainLayout() {
 
         {/* Mobile footer */}
         <div className="flex flex-col items-center gap-6 p-6 lg:hidden">
-          <ThemeToggle />
+               <div className="hidden lg:block">
+  <ThemeToggle />
+</div>
           <Footer />
         </div>
       </div>
