@@ -24,12 +24,9 @@ export default function useTouchGlow() {
     );
   }
 
-  function handlePointerMove(e) {
-    if (e.pointerType === "touch") return;
-
-    updateGlowPosition(e);
-  }
-
+function handlePointerMove(e) {
+   updateGlowPosition(e);
+}
   function handlePointerDown(e) {
     updateGlowPosition(e);
 
