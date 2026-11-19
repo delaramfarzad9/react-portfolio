@@ -22,8 +22,10 @@ function GlowButton({
     font-alan font-medium text-primary
     backdrop-blur-xl
     transition-colors duration-300
-    group-hover:bg-indigo-50/90
-    dark:group-hover:bg-blue-900/95
+
+    [@media(hover:hover)]:group-hover:bg-indigo-50/90
+    dark:[@media(hover:hover)]:group-hover:bg-blue-900/95
+
     active:scale-[0.98]
     focus-visible:outline-2
     focus-visible:outline-offset-4
@@ -33,11 +35,12 @@ function GlowButton({
   const content = (
     <>
       <span>{text}</span>
+
       <HiArrowUpRight
         aria-hidden="true"
         className="text-lg transition-transform duration-300
-                   group-hover:translate-x-1
-                   group-hover:-translate-y-1
+                   [@media(hover:hover)]:group-hover:translate-x-1
+                   [@media(hover:hover)]:group-hover:-translate-y-1
                    motion-reduce:transform-none"
       />
     </>
@@ -60,7 +63,7 @@ function GlowButton({
                    rounded-2xl opacity-0
                    transition-opacity duration-75
                    sm:duration-300
-                   group-hover:opacity-90
+                   [@media(hover:hover)]:group-hover:opacity-90
                    group-data-[touch-active=true]:opacity-90
                    dark:hidden"
         style={{
@@ -74,20 +77,20 @@ function GlowButton({
         }}
       />
 
-      {/* Dark mode: original colourful border */}
+      {/* Dark mode: cyan, violet and pink border */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0
                    hidden rounded-2xl opacity-0
                    transition-opacity duration-75
                    sm:duration-300
-                   group-hover:opacity-80
+                   [@media(hover:hover)]:group-hover:opacity-80
                    group-data-[touch-active=true]:opacity-80
                    dark:block"
         style={{
           background: `radial-gradient(
             130px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,1),
+            rgba(34,211,238,1) 0%,
             rgba(139,92,246,0.9) 40%,
             rgba(244,114,182,0.7) 70%,
             transparent 100%
@@ -102,8 +105,8 @@ function GlowButton({
                    rounded-2xl opacity-0 blur-md
                    transition-opacity duration-75
                    sm:duration-300
-                   group-hover:opacity-35
-                   group-data-[touch-active=true]:opacity-35
+                   [@media(hover:hover)]:group-hover:opacity-35
+                   group-data-[touch-active=true]:opacity-25
                    dark:hidden"
         style={{
           background: `radial-gradient(
@@ -122,8 +125,8 @@ function GlowButton({
                    hidden rounded-2xl opacity-0 blur-md
                    transition-opacity duration-75
                    sm:duration-300
-                   group-hover:opacity-35
-                   group-data-[touch-active=true]:opacity-35
+                   [@media(hover:hover)]:group-hover:opacity-35
+                   group-data-[touch-active=true]:opacity-25
                    dark:block"
         style={{
           background: `radial-gradient(
@@ -135,6 +138,7 @@ function GlowButton({
         }}
       />
 
+      {/* Button variants */}
       {submit ? (
         <button
           type="submit"
