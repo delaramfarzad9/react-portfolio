@@ -1,6 +1,7 @@
 
 import { Link } from "react-router";
 import { HiArrowUpRight } from "react-icons/hi2";
+import useTouchGlow from "../hooks/useTouchGlow";
 
 function GlowButton({
   text,
@@ -9,63 +10,126 @@ function GlowButton({
   submit = false,
   wide = false,
 }) {
-  const moveGlow = (e) => {
-    const button = e.currentTarget;
-    const rect = button.getBoundingClientRect();
-
-    button.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    button.style.setProperty("--y", `${e.clientY - rect.top}px`);
-  };
+  const {
+    touchActive,
+    handlePointerMove,
+    handlePointerDown,
+  } = useTouchGlow();
 
   const buttonStyles = `
     relative z-10 inline-flex items-center justify-center gap-3
-    rounded-[15px] bg-surface font-alan font-medium text-primary
-    backdrop-blur-xl transition-all duration-300
-    hover:bg-hover-surface active:scale-[0.98]
-    focus-visible:outline-2 focus-visible:outline-offset-4
+    rounded-[15px] bg-surface
+    font-alan font-medium text-primary
+    backdrop-blur-xl
+    transition-colors duration-300
+    group-hover:bg-indigo-50/90
+    dark:group-hover:bg-blue-900/95
+    active:scale-[0.98]
+    focus-visible:outline-2
+    focus-visible:outline-offset-4
     focus-visible:outline-accent
   `;
 
+  const content = (
+    <>
+      <span>{text}</span>
+      <HiArrowUpRight
+        aria-hidden="true"
+        className="text-lg transition-transform duration-300
+                   group-hover:translate-x-1
+                   group-hover:-translate-y-1
+                   motion-reduce:transform-none"
+      />
+    </>
+  );
+
   return (
     <div
-      onPointerMove={moveGlow}
-      onPointerDown={moveGlow}
+      data-touch-active={touchActive}
+      onPointerMove={handlePointerMove}
+      onPointerDown={handlePointerDown}
       className={`group relative inline-flex rounded-2xl
-                  bg-slate-300/60 p-px dark:bg-white/20
+                  bg-slate-300/70 p-px
+                  dark:bg-white/15
                   ${wide ? "w-full" : "w-fit"}`}
     >
-      {/* Cursor-following colourful border */}
+      {/* Light mode: indigo cursor-following border */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0
                    rounded-2xl opacity-0
-                   transition-opacity duration-300
-                   group-hover:opacity-80
-                   group-active:opacity-80"
+                   transition-opacity duration-75
+                   sm:duration-300
+                   group-hover:opacity-90
+                   group-data-[touch-active=true]:opacity-90
+                   dark:hidden"
         style={{
           background: `radial-gradient(
-            85px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,1) 0%,
-            rgba(139,92,246,0.9) 35%,
-            rgba(244,114,182,0.7) 65%,
+            130px circle at var(--x, 50%) var(--y, 50%),
+            rgba(79,70,229,0.95) 0%,
+            rgba(67,56,202,0.9) 40%,
+            rgba(55,48,163,0.7) 70%,
             transparent 100%
           )`,
         }}
       />
 
-      {/* Subtle external glow */}
+      {/* Dark mode: original colourful border */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0
+                   hidden rounded-2xl opacity-0
+                   transition-opacity duration-75
+                   sm:duration-300
+                   group-hover:opacity-80
+                   group-data-[touch-active=true]:opacity-80
+                   dark:block"
+        style={{
+          background: `radial-gradient(
+            130px circle at var(--x, 50%) var(--y, 50%),
+            rgba(34,211,238,1),
+            rgba(139,92,246,0.9) 40%,
+            rgba(244,114,182,0.7) 70%,
+            transparent 100%
+          )`,
+        }}
+      />
+
+      {/* Light mode: subtle indigo external glow */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute -inset-1
                    rounded-2xl opacity-0 blur-md
-                   transition-opacity duration-300
-                   group-hover:opacity-40
-                   group-active:opacity-40"
+                   transition-opacity duration-75
+                   sm:duration-300
+                   group-hover:opacity-35
+                   group-data-[touch-active=true]:opacity-35
+                   dark:hidden"
         style={{
           background: `radial-gradient(
-            65px circle at var(--x, 50%) var(--y, 50%),
-            rgba(34,211,238,0.3),
-            rgba(139,92,246,0.25) 50%,
+            75px circle at var(--x, 50%) var(--y, 50%),
+            rgba(79,70,229,0.25),
+            rgba(67,56,202,0.2) 50%,
+            transparent 85%
+          )`,
+        }}
+      />
+
+      {/* Dark mode: original external glow */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-1
+                   hidden rounded-2xl opacity-0 blur-md
+                   transition-opacity duration-75
+                   sm:duration-300
+                   group-hover:opacity-35
+                   group-data-[touch-active=true]:opacity-35
+                   dark:block"
+        style={{
+          background: `radial-gradient(
+            75px circle at var(--x, 50%) var(--y, 50%),
+            rgba(34,211,238,0.25),
+            rgba(139,92,246,0.2) 50%,
             transparent 85%
           )`,
         }}
@@ -74,38 +138,29 @@ function GlowButton({
       {submit ? (
         <button
           type="submit"
-          className={`${buttonStyles} cursor-pointer px-10 py-4
-                      text-base font-semibold ${wide ? "w-full" : ""}`}
+          className={`${buttonStyles}
+                      cursor-pointer px-10 py-4
+                      text-base font-semibold
+                      ${wide ? "w-full" : ""}`}
         >
-          <span>{text}</span>
-          <HiArrowUpRight aria-hidden="true" className="text-lg" />
+          {content}
         </button>
       ) : download ? (
         <a
           href={to}
           download
-          className={`${buttonStyles} px-6 py-3 ${
-            wide ? "w-full" : ""
-          }`}
+          className={`${buttonStyles} px-6 py-3
+                      ${wide ? "w-full" : ""}`}
         >
-          <span>{text}</span>
-          <HiArrowUpRight aria-hidden="true" className="text-lg" />
+          {content}
         </a>
       ) : (
         <Link
           to={to}
-          className={`${buttonStyles} px-6 py-3 ${
-            wide ? "w-full" : ""
-          }`}
+          className={`${buttonStyles} px-6 py-3
+                      ${wide ? "w-full" : ""}`}
         >
-          <span>{text}</span>
-          <HiArrowUpRight
-            aria-hidden="true"
-            className="text-lg transition-transform duration-300
-                       group-hover:translate-x-1
-                       group-hover:-translate-y-1
-                       motion-reduce:transform-none"
-          />
+          {content}
         </Link>
       )}
     </div>
