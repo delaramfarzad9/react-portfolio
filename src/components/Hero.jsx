@@ -2,17 +2,18 @@
 import { FiCode } from "react-icons/fi";
 import GlowButton from "../components/GlassButton";
 import AnimatedTechIcons from "./AnimatedTechIcons";
+import Reveal from "../animations/Reveal";
 
 function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
       className="relative flex min-h-0 flex-col
-             justify-start pt-2 pb-8
-             text-primary
-             sm:pt-8 sm:pb-12
-             xl:min-h-[75vh] xl:justify-center
-             xl:py-16"
+                 justify-start pt-2 pb-8
+                 text-primary
+                 sm:pt-8 sm:pb-12
+                 xl:min-h-[75vh] xl:justify-center
+                 xl:py-16"
     >
       {/* Decorative background glow */}
       <div
@@ -28,56 +29,69 @@ function Hero() {
       >
         {/* Left — Hero content */}
         <div className="min-w-0">
-          <div className="mb-8 flex items-center gap-3">
-            <span
-              className="h-2 w-2 animate-pulse
-                         rounded-full bg-emerald-900 dark:bg-emerald-400"
-            />
+          {/*  Greeting */}
+          <Reveal trigger="mount" delay={0} duration={0.7}>
+            <div className="mb-8 flex items-center gap-3">
+              <span
+                className="h-2 w-2 animate-pulse
+                           rounded-full bg-emerald-900
+                           dark:bg-emerald-400"
+              />
 
-            <span
-              className="font-space text-xs tracking-widest
-                         text-accent"
+              <span
+                className="font-space text-xs tracking-widest
+                           text-accent"
+              >
+                HELLO, WORLD!
+              </span>
+
+              <FiCode
+                aria-hidden="true"
+                className="text-lg text-accent"
+              />
+            </div>
+          </Reveal>
+
+          {/* Main heading */}
+          <Reveal trigger="mount" delay={0.2} duration={0.85}>
+            <h2
+              id="hero-heading"
+              className="font-alan max-w-3xl
+                         text-4xl font-bold leading-[1.2]
+                         sm:text-5xl lg:text-6xl xl:text-7xl"
             >
-              HELLO, WORLD!
-            </span>
+              Digital experiences
+              <br />
+              that
+              <span className="text-hero-highlight">
+                {" "}feel different.
+              </span>
+            </h2>
+          </Reveal>
 
-            <FiCode
-              aria-hidden="true"
-              className="text-lg text-accent"
-            />
-          </div>
+          {/* Introduction */}
+          <Reveal trigger="mount" delay={0.4} duration={0.85}>
+            <p
+              className="font-alan mt-8 max-w-xl
+                         text-base leading-8 text-secondary
+                         sm:text-lg"
+            >
+              I'm Dela, a front-end developer who loves turning
+              creative ideas into responsive, interactive, and
+              user-friendly web experiences.
+            </p>
+          </Reveal>
 
-          <h2
-            id="hero-heading"
-            className="font-alan max-w-3xl
-                       text-4xl font-bold leading-[1.2]
-                       sm:text-5xl lg:text-6xl xl:text-7xl"
-          >
-            Digital experiences
-            <br />
-            that
-            <span className="text-hero-highlight">
-              {" "}feel different.
-            </span>
-          </h2>
-
-          <p
-            className="font-alan mt-8 max-w-xl
-                       text-base leading-8 text-secondary
-                       sm:text-lg"
-          >
-            I'm Dela, a front-end developer who loves turning
-            creative ideas into responsive, interactive, and
-            user-friendly web experiences.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <GlowButton text="Explore my work" to="/projects" />
-            <GlowButton text="Let's connect" to="/contact" />
-          </div>
+          {/* CTA buttons */}
+          <Reveal trigger="mount" delay={0.6} duration={0.8}>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <GlowButton text="Explore my work" to="/projects" />
+              <GlowButton text="Let's connect" to="/contact" />
+            </div>
+          </Reveal>
         </div>
 
-        {/* Right — Floating technologies */}
+        {/* Right — Floating technologies: unchanged */}
         <div
           className="flex justify-center xl:justify-end
                      min-[1800px]:-translate-x-20"

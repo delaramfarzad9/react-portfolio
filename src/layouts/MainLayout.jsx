@@ -1,15 +1,20 @@
 
 import { Outlet } from "react-router";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
 import ScrollToTop from "../components/ScrollToTop";
 import Breadcrumbs from "../components/Breadcrumbs";
 
+import Reveal from "../animations/Reveal";
+import SidebarReveal from "../animations/SidebarReveal";
+
 function MainLayout() {
   return (
     <div className="min-h-screen bg-page text-primary transition-colors duration-300 lg:flex">
       <ScrollToTop />
+
       {/* Desktop sidebar */}
       <aside
         className="relative hidden p-8
@@ -26,35 +31,45 @@ function MainLayout() {
                      to-pink-400/40"
         />
 
-        <Navbar />
+        {/* Animated desktop navigation */}
+        <SidebarReveal>
+          <Navbar />
+        </SidebarReveal>
 
-        {/* Theme toggle and footer */}
-        <div className="flex flex-col items-start gap-5">
-          <ThemeToggle />
-          <Footer />
-        </div>
+        {/* Desktop theme toggle and footer */}
+        <Reveal
+          trigger="mount"
+          delay={0.45}
+          duration={0.8}
+          distance={12}
+        >
+          <div className="flex flex-col items-start gap-5">
+            <ThemeToggle />
+            <Footer />
+          </div>
+        </Reveal>
       </aside>
 
       {/* Mobile and tablet layout */}
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        
         {/* Mobile navigation */}
-<div className="relative z-50 lg:hidden">
-  <Navbar />
-</div>
+        <div className="relative z-50 lg:hidden">
+          <Navbar />
+        </div>
 
         {/* Page content */}
         <main className="flex-1 p-6 md:p-10 lg:p-16">
-           <Breadcrumbs />
+          <Breadcrumbs />
           <Outlet />
         </main>
 
         {/* Mobile footer */}
-        <div className="flex flex-col items-center gap-6 p-6 lg:hidden">
-               <div className="hidden lg:block">
-  <ThemeToggle />
-</div>
-          <Footer />
+        <div className="p-6 lg:hidden">
+          <Reveal trigger="view" duration={0.75} distance={12}>
+            <div className="flex flex-col items-center gap-6">
+              <Footer />
+            </div>
+          </Reveal>
         </div>
       </div>
     </div>

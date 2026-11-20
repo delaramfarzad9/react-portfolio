@@ -128,20 +128,30 @@ const projects = [
     github: "https://github.com/delaramfarzad9/weather-app",
   },
 
-  {
-    title: "Admin Dashboard",
-    status: "In Progress",
-    img: dashboardImg,
-    description:
-      "A responsive admin dashboard built with React and Tailwind CSS, featuring interactive charts, data tables, and basic user management functionality. Designed with a clean layout and reusable components for a smooth and efficient user experience.",
-    tech: [
-      "React",
-      "Tailwind CSS",
-      "Chart.js",
-    ],
-    demo: "",
-    github: "https://github.com/delaramfarzad9/admin-dashboard",
-  },
+
+{
+  title: "Admin Dashboard",
+  status: "In Progress",
+  img: dashboardImg,
+  description: `· React & Vite — Built a responsive admin dashboard with reusable components and a clean, modern interface.
+· Data visualisation — Integrated interactive charts using Recharts and summary cards to display key metrics.
+· Product management — Implemented CRUD operations, search, filtering, pagination, and table/grid views.
+· React Router — Configured client-side routing with a shared dashboard layout, sidebar, and topbar.
+· Custom hooks — Used localStorage persistence to save and manage product data.
+· Tailwind CSS — Created responsive layouts and consistent styling across different screen sizes.`,
+  tech: [
+    "React",
+    "Vite",
+    "Tailwind CSS",
+    "JavaScript (ES6+)",
+    "React Router",
+    "Recharts",
+    "LocalStorage",
+  ],
+  demo: "",
+  github: "https://github.com/delaramfarzad9/admin-dashboard",
+},
+
 
   {
     title: "SafeWeb — Cybersecurity SaaS Landing Page",

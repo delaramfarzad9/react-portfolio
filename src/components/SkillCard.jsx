@@ -20,7 +20,7 @@ function SkillCard({ title, skills }) {
     <article
       ref={cardRef}
       onPointerMove={moveGlow}
-      className="group relative rounded-2xl
+      className="group h-full relative rounded-2xl
                  bg-slate-300/70 p-px
                  shadow-lg shadow-slate-900/5
                  transition-all duration-300
