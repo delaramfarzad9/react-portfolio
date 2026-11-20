@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
 import ScrollToTop from "../components/ScrollToTop";
 import Breadcrumbs from "../components/Breadcrumbs";
-
+import BackToTop from "../components/BackToTop";
 import Reveal from "../animations/Reveal";
 import SidebarReveal from "../animations/SidebarReveal";
 
@@ -72,6 +72,7 @@ function MainLayout() {
           </Reveal>
         </div>
       </div>
+      <BackToTop />
     </div>
   );
 }

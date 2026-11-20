@@ -6,6 +6,7 @@ import ProjectCard from "../components/ProjectCard";
 import Reveal from "../animations/Reveal";
 import projectsData from "../data/projects";
 
+
 const filters = [
   "All",
   "React",

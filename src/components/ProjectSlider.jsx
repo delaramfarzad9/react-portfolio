@@ -39,16 +39,19 @@ function ProjectSlider() {
     return () => media.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    if (paused || reducedMotion || total <= 1) return;
+useEffect(() => {
+  if (paused || reducedMotion || total <= 1 || index >= total) {
+    return;
+  }
 
-    const timer = setInterval(() => {
-      setAnimate(true);
-      setIndex((prev) => prev + 1);
-    }, 4000);
+  const timer = setTimeout(() => {
+    setAnimate(true);
+    setIndex((prev) => prev + 1);
+  }, 4000);
 
-    return () => clearInterval(timer);
-  }, [paused, reducedMotion]);
+  return () => clearTimeout(timer);
+}, [index, paused, reducedMotion]);
+
 
   function next() {
     if (index >= total) return;
