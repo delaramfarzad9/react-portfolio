@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { FiArrowUpRight } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
@@ -131,15 +131,31 @@ className="relative z-50 flex items-center justify-between
            bg-page px-4 py-4
            lg:block lg:bg-transparent lg:p-0"
 >
-        <div>
-          <h1 className="font-arch text-3xl font-bold text-primary">
-          <span className="text-accent text-2xl">{"<"}</span>Dela <span className="text-accent text-2xl">{"/>"}</span>
-          </h1>
+     
 
-          <p className="mt-2 font-alan text-sm text-secondary">
-            Front-End Developer
-          </p>
-        </div>
+<div>
+  <Link
+    to="/"
+    aria-label="Dela — Go to homepage"
+    onClick={() => setIsOpen(false)}
+    className="inline-block rounded-lg
+               focus-visible:outline-2
+               focus-visible:outline-offset-4
+               focus-visible:outline-accent"
+  >
+    <h1 className="font-arch text-3xl font-bold text-primary">
+      <span className="text-accent text-2xl">{"<"}</span>
+      Dela{" "}
+      <span className="text-accent text-2xl">{"/>"}</span>
+    </h1>
+  </Link>
+
+  <p className="mt-2 font-alan text-sm text-secondary">
+    Front-End Developer
+  </p>
+</div>
+
+
 
         {/* Hamburger becomes close button */}
         <button

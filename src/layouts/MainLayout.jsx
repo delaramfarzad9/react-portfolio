@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
 import ScrollToTop from "../components/ScrollToTop";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 function MainLayout() {
   return (
@@ -44,6 +45,7 @@ function MainLayout() {
 
         {/* Page content */}
         <main className="flex-1 p-6 md:p-10 lg:p-16">
+           <Breadcrumbs />
           <Outlet />
         </main>
 
