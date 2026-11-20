@@ -1,8 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+
 import projects from "../data/projects";
 import SliderProjectCard from "./SliderProjectCard";
+import { Link } from "react-router";
+
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
 
 const featuredProjects = projects;
 const total = featuredProjects.length;
@@ -103,43 +106,74 @@ function ProjectSlider() {
         }
       }}
     >
-      {/* Heading and controls */}
-      <div className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <p className="font-sora text-xs tracking-widest text-accent">
-            FEATURED WORK
-          </p>
+      
+{/* Heading and controls */}
+<div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+  <div>
+    <p className="font-sora text-xs tracking-widest text-accent">
+      MY WORK
+    </p>
 
-          <h2
-            id="featured-heading"
-            className="mt-2 font-alan text-2xl font-bold
-                       text-primary sm:text-3xl"
-          >
-            Selected <span className="text-accent">Projects.</span>
-          </h2>
-        </div>
+    <h2
+      id="featured-heading"
+      className="mt-2 font-alan text-2xl font-bold
+                 text-primary sm:text-3xl"
+    >
+      My <span className="text-accent">Projects.</span>
+    </h2>
+  </div>
 
-        {/* Navigation arrows */}
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={previous}
-            aria-label="Previous project"
-            className={arrowStyles}
-          >
-            <FiArrowLeft aria-hidden="true" />
-          </button>
+  <div className="flex items-center gap-4">
 
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Next project"
-            className={arrowStyles}
-          >
-            <FiArrowRight aria-hidden="true" />
-          </button>
-        </div>
-      </div>
+<Link
+  to="/projects"
+  className="group inline-flex min-h-10
+             items-center justify-center gap-2
+             rounded-xl border border-theme-border
+             bg-surface px-4 py-2
+             font-alan text-sm text-primary
+             transition-colors duration-300
+             hover:border-accent/40
+             focus-visible:outline-2
+             focus-visible:outline-offset-4
+             focus-visible:outline-accent"
+>
+  View More Projects
+
+  <FiArrowUpRight
+    aria-hidden="true"
+    className="text-accent
+               transition-transform duration-300
+               group-hover:translate-x-0.5
+               group-hover:-translate-y-0.5
+               motion-reduce:transform-none"
+  />
+</Link>
+
+
+    {/* Navigation arrows */}
+    <div className="flex gap-2">
+      <button
+        type="button"
+        onClick={previous}
+        aria-label="Previous project"
+        className={arrowStyles}
+      >
+        <FiArrowLeft aria-hidden="true" />
+      </button>
+
+      <button
+        type="button"
+        onClick={next}
+        aria-label="Next project"
+        className={arrowStyles}
+      >
+        <FiArrowRight aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</div>
+
 
       {/* Carousel viewport */}
     <div
@@ -202,6 +236,8 @@ function ProjectSlider() {
           />
         ))}
       </div>
+
+
     </section>
   );
 }

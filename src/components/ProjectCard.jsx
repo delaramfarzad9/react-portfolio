@@ -1,19 +1,11 @@
-import { useRef, useState } from "react";
-import { FiArrowUpRight, FiGithub, FiChevronDown } from "react-icons/fi";
 
-function ProjectCard({ project }) {
-  const [expanded, setExpanded] = useState(false);
+import { useRef } from "react";
+import { FiArrowUpRight, FiGithub } from "react-icons/fi";
+
+function ProjectCard({ project, selected = false }) {
   const cardRef = useRef(null);
 
-  const {
-    title,
-    img,
-    description,
-    tech,
-    demo,
-    github,
-    status,
-  } = project;
+  const { title, img, description, tech, demo, github, status } = project;
 
   const details = description
     .split("\n")
@@ -34,10 +26,12 @@ function ProjectCard({ project }) {
 
   return (
     <article
+      id={selected ? "selected-project" : undefined}
       ref={cardRef}
       onPointerMove={moveGlow}
       className="group relative flex h-full flex-col
-                 rounded-2xl bg-slate-300/70 p-px
+                 scroll-mt-24 rounded-2xl
+                 bg-slate-300/70 p-px
                  shadow-lg shadow-slate-900/5
                  transition-all duration-300
                  hover:-translate-y-1
@@ -49,8 +43,9 @@ function ProjectCard({ project }) {
       {/* LIGHT MODE cursor-following border */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-2xl
-                   opacity-0 transition-opacity duration-300
+        className="pointer-events-none absolute inset-0
+                   rounded-2xl opacity-0
+                   transition-opacity duration-300
                    group-hover:opacity-90 dark:hidden"
         style={{
           background: `radial-gradient(
@@ -66,8 +61,9 @@ function ProjectCard({ project }) {
       {/* DARK MODE cursor-following border */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden rounded-2xl
-                   opacity-0 transition-opacity duration-300
+        className="pointer-events-none absolute inset-0 hidden
+                   rounded-2xl opacity-0
+                   transition-opacity duration-300
                    group-hover:opacity-100 dark:block"
         style={{
           background: `radial-gradient(
@@ -83,8 +79,9 @@ function ProjectCard({ project }) {
       {/* LIGHT MODE external glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-1 rounded-2xl
-                   opacity-0 blur-md transition-opacity duration-300
+        className="pointer-events-none absolute -inset-1
+                   rounded-2xl opacity-0 blur-md
+                   transition-opacity duration-300
                    group-hover:opacity-40 dark:hidden"
         style={{
           background: `radial-gradient(
@@ -99,8 +96,9 @@ function ProjectCard({ project }) {
       {/* DARK MODE external glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-1 hidden rounded-2xl
-                   opacity-0 blur-md transition-opacity duration-300
+        className="pointer-events-none absolute -inset-1 hidden
+                   rounded-2xl opacity-0 blur-md
+                   transition-opacity duration-300
                    group-hover:opacity-45 dark:block"
         style={{
           background: `radial-gradient(
@@ -119,8 +117,8 @@ function ProjectCard({ project }) {
                    bg-white/90 backdrop-blur-md
                    transition-colors duration-300
                    group-hover:bg-indigo-50/90
-                   dark:bg-blue-950/95
-                   dark:group-hover:bg-blue-900/95"
+                   dark:bg-indigo-950/95
+                   dark:group-hover:bg-indigo-900/95"
       >
         {/* Project screenshot */}
         <div
@@ -171,47 +169,23 @@ function ProjectCard({ project }) {
             {title}
           </h2>
 
-          <p className="mt-4 font-sora text-sm leading-7 text-secondary">
-            {details[0]}
-          </p>
+          {/* Main description */}
+          {details[0] && (
+            <p className="mt-4 font-sora text-sm leading-7 text-secondary">
+              {details[0]}
+            </p>
+          )}
 
-          {/* Expandable details */}
+          {/* All project details — always visible */}
           {details.length > 1 && (
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={() => setExpanded((prev) => !prev)}
-                aria-expanded={expanded}
-                className="inline-flex cursor-pointer items-center gap-2
-                           font-sora text-sm text-accent
-                           transition-colors duration-300
-                           hover:text-indigo-700
-                           dark:hover:text-white
-                           focus-visible:outline-2
-                           focus-visible:outline-offset-4
-                           focus-visible:outline-accent"
-              >
-                {expanded ? "Hide details" : "Show details"}
-
-                <FiChevronDown
-                  aria-hidden="true"
-                  className={`transition-transform duration-300 ${
-                    expanded ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {expanded && (
-                <ul
-                  className="mt-4 list-disc space-y-3 pl-5
-                             font-sora text-sm leading-7 text-secondary"
-                >
-                  {details.slice(1).map((detail, index) => (
-                    <li key={index}>{detail}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <ul
+              className="mt-4 list-disc space-y-3 pl-5
+                         font-sora text-sm leading-7 text-secondary"
+            >
+              {details.slice(1).map((detail, index) => (
+                <li key={index}>{detail}</li>
+              ))}
+            </ul>
           )}
 
           {/* Technology tags */}

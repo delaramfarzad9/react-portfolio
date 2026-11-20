@@ -128,10 +128,19 @@
   font-weight: 900;
   src: url('./assets/fonts/alan-sans-v7-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+/* architects-daughter-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Architects Daughter";
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/architects-daughter-v20-latin-regular.woff2') format('woff2');
+}
 @theme{
   --font-sora: 'Sora', sans-serif;
   --font-alan: 'Alan Sans', sans-serif;
   --font-space: 'Space Mono', monospace;
+   --font-arch: Architects Daughter, "cursive";
 }
 
 

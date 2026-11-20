@@ -1,12 +1,27 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
+
 import ProjectCard from "../components/ProjectCard";
 import projectsData from "../data/projects";
 
-const filters = ["All", "React", "Next.js", "Full Stack", "HTML & CSS"];
+const filters = [
+  "All",
+  "React",
+  "Next.js",
+  "Full Stack",
+  "HTML & CSS",
+];
 
 function Projects() {
   const [activeFilter, setActiveFilter] = useState("All");
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedTitle = searchParams.get("project");
+
+  const selectedProject = projectsData.find(
+    (project) => project.title === selectedTitle
+  );
 
   const filteredProjects = projectsData.filter((project) => {
     switch (activeFilter) {
@@ -30,6 +45,33 @@ function Projects() {
     }
   });
 
+  // Scroll to the matching card when arriving from Home.
+  useEffect(() => {
+    if (!selectedProject || activeFilter !== "All") return;
+
+    const frame = requestAnimationFrame(() => {
+      document.getElementById("selected-project")?.scrollIntoView({
+        behavior: window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+          ? "instant"
+          : "smooth",
+        block: "center",
+      });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [selectedProject, activeFilter]);
+
+  function changeFilter(filter) {
+    setActiveFilter(filter);
+
+    // Return to normal browsing after changing filters.
+    if (selectedTitle) {
+      setSearchParams({});
+    }
+  }
+
   return (
     <section
       aria-labelledby="projects-heading"
@@ -52,7 +94,7 @@ function Projects() {
         user experiences.
       </p>
 
-      {/* Project filters */}
+      {/* Filters */}
       <div
         role="group"
         aria-label="Filter projects"
@@ -65,7 +107,7 @@ function Projects() {
             <button
               key={filter}
               type="button"
-              onClick={() => setActiveFilter(filter)}
+              onClick={() => changeFilter(filter)}
               aria-pressed={isActive}
               className={`cursor-pointer rounded-xl border
                           px-4 py-2.5 font-alan text-sm
@@ -103,9 +145,18 @@ function Projects() {
 
       {/* Project grid */}
       <div className="mt-6 grid gap-8 md:grid-cols-2">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
-        ))}
+        {filteredProjects.map((project) => {
+          const isSelected =
+            selectedProject?.title === project.title;
+
+          return (
+            <ProjectCard
+              key={`${project.title}-${isSelected}`}
+              project={project}
+              selected={isSelected}
+            />
+          );
+        })}
       </div>
     </section>
   );

@@ -75,8 +75,8 @@ function SkillCard({ title, skills }) {
                    bg-gray-50 p-6 backdrop-blur-md
                    transition-colors duration-300
                    group-hover:bg-indigo-50/99
-                   dark:bg-blue-950/95
-                   dark:group-hover:bg-blue-900/95"
+                   dark:bg-indigo-950/95
+                   dark:group-hover:bg-indigo-900/95"
       >
         <h3
           className="mb-5 font-alan text-xl font-semibold

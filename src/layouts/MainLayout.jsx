@@ -3,11 +3,12 @@ import { Outlet } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
+import ScrollToTop from "../components/ScrollToTop";
 
 function MainLayout() {
   return (
     <div className="min-h-screen bg-page text-primary transition-colors duration-300 lg:flex">
-      
+      <ScrollToTop />
       {/* Desktop sidebar */}
       <aside
         className="relative hidden p-8

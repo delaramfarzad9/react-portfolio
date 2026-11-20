@@ -132,11 +132,11 @@ className="relative z-50 flex items-center justify-between
            lg:block lg:bg-transparent lg:p-0"
 >
         <div>
-          <h1 className="font-alan text-3xl font-bold text-primary">
-            Dela<span className="text-accent">.</span>
+          <h1 className="font-arch text-3xl font-bold text-primary">
+          <span className="text-accent text-2xl">{"<"}</span>Dela <span className="text-accent text-2xl">{"/>"}</span>
           </h1>
 
-          <p className="mt-2 font-sora text-sm text-secondary">
+          <p className="mt-2 font-alan text-sm text-secondary">
             Front-End Developer
           </p>
         </div>
