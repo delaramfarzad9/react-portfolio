@@ -6,7 +6,6 @@ import ProjectCard from "../components/ProjectCard";
 import Reveal from "../animations/Reveal";
 import projectsData from "../data/projects";
 
-
 const filters = [
   "All",
   "React",
@@ -16,16 +15,22 @@ const filters = [
 ];
 
 function Projects() {
+  // Manage the project collection using React state.
+  const [projects] = useState(() => projectsData);
+
+  // Manage the selected technology filter.
   const [activeFilter, setActiveFilter] = useState("All");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTitle = searchParams.get("project");
 
-  const selectedProject = projectsData.find(
+  // Find a specific project when navigating from the Home slider.
+  const selectedProject = projects.find(
     (project) => project.title === selectedTitle
   );
 
-  const filteredProjects = projectsData.filter((project) => {
+  // Filter the project collection based on the active category.
+  const filteredProjects = projects.filter((project) => {
     switch (activeFilter) {
       case "React":
         return project.tech.includes("React");
@@ -103,7 +108,7 @@ function Projects() {
         </p>
       </Reveal>
 
-      {/* Filters */}
+      {/* Project filters */}
       <Reveal trigger="mount" delay={0.45} duration={0.75}>
         <div
           role="group"
@@ -153,21 +158,27 @@ function Projects() {
           className="mt-6 font-sora text-sm text-subtle"
           aria-live="polite"
         >
-          Showing {filteredProjects.length} of {projectsData.length} projects
+          Showing {filteredProjects.length} of {projects.length} projects
         </p>
       </Reveal>
 
       {/* Project grid */}
-      <div className="mt-6 grid gap-8 md:grid-cols-2">
+      <div className="mt-6 grid gap-8 xl:grid-cols-2">
         {filteredProjects.map((project, index) => {
           const isSelected =
             selectedProject?.title === project.title;
 
-          // Avoid hiding the selected card during direct navigation.
+          // Keep the selected card visible during direct navigation.
           if (isSelected) {
             return (
-              <div key={project.title} className="min-w-0 h-full">
-                <ProjectCard project={project} selected />
+              <div
+                key={project.title}
+                className="min-w-0 h-full"
+              >
+                <ProjectCard
+                  project={project}
+                  selected
+                />
               </div>
             );
           }

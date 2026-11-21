@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink } from "react-router";
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { FiArrowUpRight } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
@@ -16,7 +16,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const location = useLocation();
+  
 
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
@@ -39,10 +39,7 @@ function Navbar() {
     };
   }, []);
 
-  // Close the menu when navigating to another page.
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
+
 
   function closeMenu(restoreFocus = true) {
     setIsOpen(false);
@@ -80,9 +77,9 @@ function Navbar() {
     };
   }, [isOpen]);
 
-  // Close mobile menu when switching to desktop.
+  // Close mobile/tablet menu when switching to desktop.
   useEffect(() => {
-    const media = window.matchMedia("(min-width: 1024px)");
+    const media = window.matchMedia("(min-width: 1280px)");
 
     function handleResize(e) {
       if (e.matches) {
@@ -145,12 +142,12 @@ function Navbar() {
 
   return (
     <>
-      {/* Reserve space for the fixed mobile navbar */}
+      {/* Reserve space for the fixed mobile/tablet navbar */}
       <div
         aria-hidden="true"
         className={`
           transition-[height] duration-300 ease-in-out
-          lg:hidden
+          xl:hidden
           ${isScrolled ? "h-[68px]" : "h-[92px]"}
         `}
       />
@@ -162,8 +159,8 @@ function Navbar() {
           fixed inset-x-0 top-0 z-50
           transition-shadow duration-300
 
-          lg:relative lg:inset-auto lg:z-auto
-          lg:shadow-none
+          xl:relative xl:inset-auto xl:z-auto
+          xl:shadow-none
 
           ${
             isScrolled
@@ -172,7 +169,7 @@ function Navbar() {
           }
         `}
       >
-        {/* Mobile header / Desktop branding */}
+        {/* Mobile/tablet header / Desktop branding */}
         <div
           className={`
             relative z-50
@@ -182,20 +179,20 @@ function Navbar() {
             transition-[padding,background-color,backdrop-filter]
             duration-300 ease-in-out
 
-            lg:block lg:bg-transparent lg:p-0
-            lg:backdrop-blur-none
+            xl:block xl:bg-transparent xl:p-0
+            xl:backdrop-blur-none
 
             ${
               isScrolled
                 ? `
-                  bg-page/85 py-2
-                  backdrop-blur-xl
-                  border-b border-theme-border/50
-                  lg:border-0
-                `
+                    bg-page/85 py-2
+                    backdrop-blur-xl
+                    border-b border-theme-border/50
+                    xl:border-0
+                  `
                 : `
-                  bg-page py-4
-                `
+                    bg-page py-4
+                  `
             }
           `}
         >
@@ -205,18 +202,16 @@ function Navbar() {
               to="/"
               aria-label="Dela — Go to homepage"
               onClick={() => setIsOpen(false)}
-              className="
-                inline-block rounded-lg
-                focus-visible:outline-2
-                focus-visible:outline-offset-4
-                focus-visible:outline-accent
-              "
+              className="inline-block rounded-lg
+                         focus-visible:outline-2
+                         focus-visible:outline-offset-4
+                         focus-visible:outline-accent"
             >
               <h1
                 className={`
                   font-arch font-bold text-primary
                   transition-all duration-300
-                  lg:text-3xl
+                  xl:text-3xl
 
                   ${
                     isScrolled
@@ -225,21 +220,13 @@ function Navbar() {
                   }
                 `}
               >
-                <span
-                  className="
-                    text-accent text-2xl
-                  "
-                >
+                <span className="text-accent text-2xl">
                   {"<"}
                 </span>
 
                 Dela{" "}
 
-                <span
-                  className="
-                    text-accent text-2xl
-                  "
-                >
+                <span className="text-accent text-2xl">
                   {"/>"}
                 </span>
               </h1>
@@ -249,7 +236,7 @@ function Navbar() {
               className={`
                 font-alan text-secondary
                 transition-all duration-300
-                lg:mt-2 lg:text-sm
+                xl:mt-2 xl:text-sm
 
                 ${
                   isScrolled
@@ -262,7 +249,7 @@ function Navbar() {
             </p>
           </div>
 
-          {/* Mobile hamburger / close button */}
+          {/* Mobile/tablet hamburger / close button */}
           <button
             ref={menuButtonRef}
             type="button"
@@ -276,21 +263,16 @@ function Navbar() {
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
-            className="
-              flex h-11 w-11 cursor-pointer
-              items-center justify-center
-              rounded-lg text-2xl text-primary
-              transition-colors duration-300
-
-              hover:bg-hover-surface
-              hover:text-accent
-
-              focus-visible:outline-2
-              focus-visible:outline-offset-2
-              focus-visible:outline-accent
-
-              lg:hidden
-            "
+            className="flex h-11 w-11 cursor-pointer
+                       items-center justify-center
+                       rounded-lg text-2xl text-primary
+                       transition-colors duration-300
+                       hover:bg-hover-surface
+                       hover:text-accent
+                       focus-visible:outline-2
+                       focus-visible:outline-offset-2
+                       focus-visible:outline-accent
+                       xl:hidden"
           >
             {isOpen ? (
               <HiX aria-hidden="true" />
@@ -303,7 +285,7 @@ function Navbar() {
         {/* Desktop navigation */}
         <nav
           aria-label="Desktop navigation"
-          className="mt-16 hidden lg:block"
+          className="mt-16 hidden xl:block"
         >
           <ul className="flex flex-col gap-6">
             {links.map((link) => (
@@ -329,11 +311,9 @@ function Navbar() {
                           ${
                             isActive
                               ? "w-full opacity-100"
-                              : `
-                                w-0 opacity-0
-                                group-hover/link:w-full
-                                group-hover/link:opacity-60
-                              `
+                              : `w-0 opacity-0
+                                 group-hover/link:w-full
+                                 group-hover/link:opacity-60`
                           }
                         `}
                       />
@@ -345,41 +325,32 @@ function Navbar() {
           </ul>
         </nav>
 
-        {/* Mobile menu */}
+        {/* Mobile/tablet menu */}
         {isOpen && (
           <>
             {/* Dark blurred backdrop */}
             <div
               aria-hidden="true"
               onClick={() => closeMenu()}
-              className="
-                fixed inset-0 z-40
-                bg-slate-950/45 backdrop-blur-sm
-                dark:bg-black/60
-                lg:hidden
-              "
+              className="fixed inset-0 z-40
+                         bg-slate-950/45 backdrop-blur-sm
+                         dark:bg-black/60
+                         xl:hidden"
             />
 
-            {/* Mobile navigation panel */}
+            {/* Mobile/tablet navigation panel */}
             <nav
               id="mobile-navigation"
               aria-label="Mobile navigation"
-              className="
-                absolute inset-x-0 top-full z-50
-                max-h-[calc(100dvh-6rem)]
-                overflow-y-auto
-
-                rounded-b-2xl
-                border-b border-theme-border
-                bg-page
-
-                px-4 pb-5 pt-2
-
-                shadow-2xl shadow-slate-950/20
-                dark:shadow-black/40
-
-                lg:hidden
-              "
+              className="absolute inset-x-0 top-full z-50
+                         max-h-[calc(100dvh-6rem)]
+                         overflow-y-auto
+                         rounded-b-2xl
+                         border-b border-theme-border
+                         bg-page px-4 pb-5 pt-2
+                         shadow-2xl shadow-slate-950/20
+                         dark:shadow-black/40
+                         xl:hidden"
             >
               {/* Navigation links */}
               <ul className="flex flex-col gap-1">
@@ -397,26 +368,20 @@ function Navbar() {
                       className={({ isActive }) => `
                         flex min-h-12 w-full items-center
                         rounded-xl px-4 py-3
-
                         font-alan text-sm tracking-widest
                         transition-colors duration-300
-
                         focus-visible:outline-2
                         focus-visible:outline-offset-2
                         focus-visible:outline-accent
 
                         ${
                           isActive
-                            ? `
-                              bg-indigo-50 text-indigo-700
-                              dark:bg-violet-500/15
-                              dark:text-violet-300
-                            `
-                            : `
-                              text-secondary
-                              hover:bg-hover-surface
-                              hover:text-primary
-                            `
+                            ? `bg-indigo-50 text-indigo-700
+                               dark:bg-violet-500/15
+                               dark:text-violet-300`
+                            : `text-secondary
+                               hover:bg-hover-surface
+                               hover:text-primary`
                         }
                       `}
                     >
@@ -430,41 +395,29 @@ function Navbar() {
               <NavLink
                 to="/contact"
                 onClick={() => closeMenu(false)}
-                className="
-                  mt-5 flex min-h-12 w-full
-                  items-center justify-center gap-2
-
-                  rounded-xl bg-indigo-700
-                  px-5 py-3
-
-                  font-alan text-sm font-semibold
-                  text-white
-
-                  transition-colors duration-300
-
-                  hover:bg-indigo-800
-
-                  dark:bg-violet-500
-                  dark:hover:bg-violet-600
-
-                  focus-visible:outline-2
-                  focus-visible:outline-offset-4
-                  focus-visible:outline-accent
-                "
+                className="mt-5 flex min-h-12 w-full
+                           items-center justify-center gap-2
+                           rounded-xl bg-indigo-700
+                           px-5 py-3
+                           font-alan text-sm font-semibold
+                           text-white
+                           transition-colors duration-300
+                           hover:bg-indigo-800
+                           dark:bg-violet-500
+                           dark:hover:bg-violet-600
+                           focus-visible:outline-2
+                           focus-visible:outline-offset-4
+                           focus-visible:outline-accent"
               >
                 Let's Connect
-
                 <FiArrowUpRight aria-hidden="true" />
               </NavLink>
 
               {/* Appearance settings */}
               <div
-                className="
-                  mt-5 flex items-center
-                  justify-between gap-4
-
-                  border-t border-theme-border pt-5
-                "
+                className="mt-5 flex items-center
+                           justify-between gap-4
+                           border-t border-theme-border pt-5"
               >
                 <span className="font-sora text-sm text-secondary">
                   Appearance

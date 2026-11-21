@@ -12,15 +12,18 @@ import SidebarReveal from "../animations/SidebarReveal";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-page text-primary transition-colors duration-300 lg:flex">
+    <div
+      className="min-h-screen bg-page text-primary
+                 transition-colors duration-300 xl:flex"
+    >
       <ScrollToTop />
 
-      {/* Desktop sidebar */}
+      {/* Desktop sidebar — 1280px and above */}
       <aside
         className="relative hidden p-8
-                   lg:sticky lg:top-0 lg:flex lg:h-screen
-                   lg:w-60 lg:shrink-0 lg:flex-col
-                   lg:justify-between 2xl:w-64"
+                   xl:sticky xl:top-0 xl:flex xl:h-screen
+                   xl:w-60 xl:shrink-0 xl:flex-col
+                   xl:justify-between 2xl:w-64"
       >
         {/* Gradient border */}
         <div
@@ -52,19 +55,19 @@ function MainLayout() {
 
       {/* Mobile and tablet layout */}
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        {/* Mobile navigation */}
-        <div className="relative z-50 lg:hidden">
+        {/* Mobile/tablet navigation */}
+        <div className="relative z-50 xl:hidden">
           <Navbar />
         </div>
 
         {/* Page content */}
-        <main className="flex-1 p-6 md:p-10 lg:p-16">
+        <main className="flex-1 p-6 md:p-10 xl:p-16">
           <Breadcrumbs />
           <Outlet />
         </main>
 
-        {/* Mobile footer */}
-        <div className="p-6 lg:hidden">
+        {/* Mobile/tablet footer */}
+        <div className="p-6 xl:hidden">
           <Reveal trigger="view" duration={0.75} distance={12}>
             <div className="flex flex-col items-center gap-6">
               <Footer />
@@ -72,6 +75,8 @@ function MainLayout() {
           </Reveal>
         </div>
       </div>
+
+      {/* Floating Back to Top */}
       <BackToTop />
     </div>
   );

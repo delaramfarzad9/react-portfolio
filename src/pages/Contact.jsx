@@ -158,7 +158,8 @@ function Contact() {
       </Reveal>
 
       {/* Contact layout */}
-      <div className="mt-12 grid items-start gap-10 xl:grid-cols-2 xl:gap-12">
+      <div className="mt-12 grid items-start gap-10
+                lg:grid-cols-2 lg:gap-8 xl:gap-12">
         {/* 4. Contact information */}
         <Reveal
           trigger="mount"
@@ -180,7 +181,7 @@ function Contact() {
             </div>
 
             {/* Email and location */}
-            <div className="max-w-[480px] space-y-4">
+            <div className="max-w-[600px] space-y-4 lg:max-w-[480px]">
               <GlowContactLink
                 href="mailto:delaramfarzad9@gmail.com"
                 icon={<FiMail size={20} aria-hidden="true" />}
@@ -239,7 +240,8 @@ function Contact() {
           delay={0.6}
           duration={0.9}
           distance={18}
-          className="w-full min-w-0 max-w-[480px] xl:justify-self-end"
+          className="w-full min-w-0 max-w-[600px]
+           lg:max-w-[480px] lg:justify-self-end"
         >
           <form
             noValidate

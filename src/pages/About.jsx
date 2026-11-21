@@ -9,7 +9,14 @@ import Reveal from "../animations/Reveal";
 const skillGroups = [
   {
     title: "Core Frontend",
-    skills: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind CSS"],
+    skills: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+    ],
   },
   {
     title: "Currently Learning",
@@ -25,7 +32,11 @@ const skillGroups = [
   },
   {
     title: "Quality-Focused Development",
-    skills: ["Accessibility", "Reusable Components", "Semantic HTML"],
+    skills: [
+      "Accessibility",
+      "Reusable Components",
+      "Semantic HTML",
+    ],
   },
   {
     title: "Backend & APIs",
@@ -46,10 +57,13 @@ function About() {
   return (
     <section
       aria-labelledby="about-heading"
-      className="mx-auto max-w-6xl pt-2 pb-5 md:py-10 text-primary"
+      className="mx-auto max-w-6xl pt-2 pb-5 text-primary md:py-10"
     >
       {/* Introduction */}
-      <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div
+        className="grid items-center gap-12
+                   xl:grid-cols-[minmax(0,1fr)_320px]"
+      >
         <div>
           {/* Intro label */}
           <Reveal trigger="mount" delay={0}>
@@ -69,7 +83,10 @@ function About() {
           </Reveal>
 
           {/* Introduction paragraphs */}
-          <div className="mt-8 space-y-5 font-sora leading-8 text-secondary">
+          <div
+            className="mt-8 max-w-3xl space-y-5
+                       font-sora leading-8 text-secondary"
+          >
             <Reveal trigger="mount" delay={0.25}>
               <p>
                 I'm Dela, a UK-based front-end developer with professional
@@ -124,18 +141,19 @@ function About() {
           </Reveal>
         </div>
 
-        {/* Profile portrait — no position-changing transform */}
-        <Reveal
-          trigger="view"
-          delay={0.2}
-          duration={1}
-          distance={0}
-        >
-          <FloatingPortrait
-            src={profileImage}
-            alt="Portrait of Dela"
-          />
-        </Reveal>
+     {/* Profile portrait */}
+<Reveal
+  trigger="view"
+  delay={0.2}
+  duration={1}
+  distance={0}
+  className="flex justify-center xl:justify-end"
+>
+  <FloatingPortrait
+    src={profileImage}
+    alt="Portrait of Dela"
+  />
+</Reveal>
       </div>
 
       {/* Skills */}
@@ -143,6 +161,7 @@ function About() {
         aria-labelledby="skills-heading"
         className="mt-10 sm:mt-15 md:mt-24"
       >
+        {/* Skills heading */}
         <Reveal trigger="view" duration={0.7}>
           <p className="mb-3 font-sora text-sm tracking-widest text-accent">
             MY TOOLKIT
@@ -158,28 +177,26 @@ function About() {
         </Reveal>
 
         {/* Skills grid */}
-   
-<div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-  {skillGroups.map((group, index) => (
-    <Reveal
-      key={group.title}
-      trigger="view"
-      direction={skillDirections[index]}
-      delay={(index % 3) * 0.15}
-      duration={0.8}
-      distance={22}
-      className="min-w-0 h-full"
-    >
-      <div className="h-full">
-        <SkillCard
-          title={group.title}
-          skills={group.skills}
-        />
-      </div>
-    </Reveal>
-  ))}
-</div>
-
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {skillGroups.map((group, index) => (
+            <Reveal
+              key={group.title}
+              trigger="view"
+              direction={skillDirections[index]}
+              delay={(index % 3) * 0.15}
+              duration={0.8}
+              distance={22}
+              className="min-w-0 h-full"
+            >
+              <div className="h-full">
+                <SkillCard
+                  title={group.title}
+                  skills={group.skills}
+                />
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </section>
     </section>
   );
