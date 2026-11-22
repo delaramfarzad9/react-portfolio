@@ -62,7 +62,15 @@ function MainLayout() {
 
         {/* Page content */}
         <main className="flex-1 p-6 md:p-10 xl:p-16">
-          <Breadcrumbs />
+            <div
+    className="sticky top-[64px] z-30
+           -mx-6 px-6 py-3
+           bg-page/95 backdrop-blur-md
+           md:-mx-10 md:px-10
+           xl:top-0 xl:-mx-16 xl:px-16"
+  >
+    <Breadcrumbs />
+  </div>
           <Outlet />
         </main>
 

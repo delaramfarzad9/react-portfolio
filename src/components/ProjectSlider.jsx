@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import {
   FiArrowLeft,
@@ -20,11 +20,16 @@ const slides = [
   ...featuredProjects.slice(0, 3),
 ];
 
+const SWIPE_THRESHOLD = 50;
+
 function ProjectSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [animate, setAnimate] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Store touch coordinates without causing re-renders.
+  const touchStartRef = useRef(null);
 
   useEffect(() => {
     const media = window.matchMedia(
@@ -39,19 +44,19 @@ function ProjectSlider() {
     return () => media.removeEventListener("change", update);
   }, []);
 
-useEffect(() => {
-  if (paused || reducedMotion || total <= 1 || index >= total) {
-    return;
-  }
+  // Autoplay: reset the timer after each slide change.
+  useEffect(() => {
+    if (paused || reducedMotion || total <= 1 || index >= total) {
+      return;
+    }
 
-  const timer = setTimeout(() => {
-    setAnimate(true);
-    setIndex((prev) => prev + 1);
-  }, 4000);
+    const timer = setTimeout(() => {
+      setAnimate(true);
+      setIndex((prev) => prev + 1);
+    }, 4000);
 
-  return () => clearTimeout(timer);
-}, [index, paused, reducedMotion]);
-
+    return () => clearTimeout(timer);
+  }, [index, paused, reducedMotion]);
 
   function next() {
     if (index >= total) return;
@@ -60,11 +65,56 @@ useEffect(() => {
     setIndex((prev) => prev + 1);
   }
 
-  function previous() {
-    if (index >= total) return;
+function previous() {
+  if (index >= total) return;
 
-    setAnimate(false);
-    setIndex((prev) => (prev + total - 1) % total);
+  setAnimate(true);
+  setIndex((prev) => (prev > 0 ? prev - 1 : total - 1));
+}
+
+  // Remember where the user's finger first touches the slider.
+  function handleTouchStart(e) {
+    if (e.touches.length !== 1) return;
+
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+
+    setPaused(true);
+  }
+
+  // Detect a horizontal swipe when the finger is released.
+  function handleTouchEnd(e) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+
+    setPaused(false);
+
+    if (!start || e.changedTouches.length !== 1) return;
+
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+
+    const deltaX = endX - start.x;
+    const deltaY = endY - start.y;
+
+    const isHorizontalSwipe =
+      Math.abs(deltaX) >= SWIPE_THRESHOLD &&
+      Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+
+    if (!isHorizontalSwipe) return;
+
+    if (deltaX < 0) {
+      next();
+    } else {
+      previous();
+    }
+  }
+
+  function handleTouchCancel() {
+    touchStartRef.current = null;
+    setPaused(false);
   }
 
   function handleTransitionEnd(e) {
@@ -107,7 +157,9 @@ useEffect(() => {
       onPointerEnter={(e) => {
         if (e.pointerType === "mouse") setPaused(true);
       }}
-      onPointerLeave={() => setPaused(false)}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") setPaused(false);
+      }}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -183,7 +235,7 @@ useEffect(() => {
         </div>
       </Reveal>
 
-      {/* 2. Scroll-triggered carousel reveal */}
+      {/* 2. Swipeable project carousel */}
       <Reveal
         trigger="view"
         delay={0.15}
@@ -192,10 +244,14 @@ useEffect(() => {
       >
         <div
           className="w-full overflow-hidden pt-3 pb-5
+                     touch-pan-y
                      [--visible:1] md:[--visible:2]
                      2xl:[--visible:3]"
           aria-roledescription="carousel"
           aria-label="Project previews"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchCancel}
         >
           <div
             className={`flex w-full ${
