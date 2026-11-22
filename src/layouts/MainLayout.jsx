@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
 import ScrollToTop from "../components/ScrollToTop";
-import Breadcrumbs from "../components/Breadcrumbs";
 import BackToTop from "../components/BackToTop";
 import Reveal from "../animations/Reveal";
 import SidebarReveal from "../animations/SidebarReveal";
@@ -53,30 +52,25 @@ function MainLayout() {
         </Reveal>
       </aside>
 
-      {/* Mobile and tablet layout */}
+      {/* Main content layout */}
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        {/* Mobile/tablet navigation */}
+        {/* Mobile/tablet navigation with integrated breadcrumbs */}
         <div className="relative z-50 xl:hidden">
           <Navbar />
         </div>
 
         {/* Page content */}
-        <main className="flex-1 p-6 md:p-10 xl:p-16">
-            <div
-    className="sticky top-[64px] z-30
-           -mx-6 px-6 py-3
-           bg-page/95 backdrop-blur-md
-           md:-mx-10 md:px-10
-           xl:top-0 xl:-mx-16 xl:px-16"
-  >
-    <Breadcrumbs />
-  </div>
+        <main className="min-w-0 flex-1 p-6 md:p-10 xl:p-16">
           <Outlet />
         </main>
 
         {/* Mobile/tablet footer */}
         <div className="p-6 xl:hidden">
-          <Reveal trigger="view" duration={0.75} distance={12}>
+          <Reveal
+            trigger="view"
+            duration={0.75}
+            distance={12}
+          >
             <div className="flex flex-col items-center gap-6">
               <Footer />
             </div>
@@ -84,7 +78,7 @@ function MainLayout() {
         </div>
       </div>
 
-      {/* Floating Back to Top */}
+      {/* Floating Back to Top button */}
       <BackToTop />
     </div>
   );

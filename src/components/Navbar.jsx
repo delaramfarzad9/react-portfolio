@@ -1,9 +1,11 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { FiArrowUpRight } from "react-icons/fi";
+
 import ThemeToggle from "./ThemeToggle";
+import Breadcrumbs from "./Breadcrumbs";
 
 const links = [
   { name: "Home", path: "/" },
@@ -12,17 +14,24 @@ const links = [
   { name: "Contact", path: "/contact" },
 ];
 
+const breadcrumbPages = [
+  "/about",
+  "/projects",
+  "/contact",
+];
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  
+  const { pathname } = useLocation();
+  const hasBreadcrumb = breadcrumbPages.includes(pathname);
 
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const firstLinkRef = useRef(null);
 
-  // Detect scrolling for the compact glass navbar.
+  // Detect scrolling for the compact navbar.
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
@@ -38,8 +47,6 @@ function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-
 
   function closeMenu(restoreFocus = true) {
     setIsOpen(false);
@@ -148,51 +155,60 @@ function Navbar() {
         className={`
           transition-[height] duration-300 ease-in-out
           xl:hidden
-          ${isScrolled ? "h-[68px]" : "h-[92px]"}
+          ${
+            isScrolled
+              ? hasBreadcrumb
+                ? "h-[100px]"
+                : "h-[68px]"
+              : hasBreadcrumb
+                ? "h-[124px]"
+                : "h-[92px]"
+          }
         `}
       />
 
+      {/* Shared navbar */}
       <header
         ref={headerRef}
         onKeyDown={handleKeyDown}
         className={`
           fixed inset-x-0 top-0 z-50
-          transition-shadow duration-300
+          transition-[background-color,box-shadow] duration-300
 
           xl:relative xl:inset-auto xl:z-auto
-          xl:shadow-none
+          xl:bg-transparent xl:shadow-none
+          xl:backdrop-blur-none
 
           ${
             isScrolled
-              ? "shadow-lg shadow-black/5 dark:shadow-black/20"
-              : "shadow-none"
+              ? `
+                  bg-page/90 backdrop-blur-xl
+                  shadow-lg shadow-black/5
+                  dark:shadow-black/20
+                `
+              : `
+                  bg-page shadow-none
+                `
           }
         `}
       >
-        {/* Mobile/tablet header / Desktop branding */}
+        {/* Branding and mobile/tablet menu button */}
         <div
           className={`
             relative z-50
             flex items-center justify-between
             px-4
 
-            transition-[padding,background-color,backdrop-filter]
-            duration-300 ease-in-out
+            transition-[padding] duration-300 ease-in-out
 
-            xl:block xl:bg-transparent xl:p-0
-            xl:backdrop-blur-none
+            xl:block xl:p-0
+
+            ${isScrolled ? "py-2" : "py-4"}
 
             ${
-              isScrolled
-                ? `
-                    bg-page/85 py-2
-                    backdrop-blur-xl
-                    border-b border-theme-border/50
-                    xl:border-0
-                  `
-                : `
-                    bg-page py-4
-                  `
+              !hasBreadcrumb
+                ? "border-b border-theme-border/50 xl:border-0"
+                : ""
             }
           `}
         >
@@ -220,13 +236,13 @@ function Navbar() {
                   }
                 `}
               >
-                <span className="text-accent text-2xl">
+                <span className="text-2xl text-accent">
                   {"<"}
                 </span>
 
                 Dela{" "}
 
-                <span className="text-accent text-2xl">
+                <span className="text-2xl text-accent">
                   {"/>"}
                 </span>
               </h1>
@@ -249,7 +265,7 @@ function Navbar() {
             </p>
           </div>
 
-          {/* Mobile/tablet hamburger / close button */}
+          {/* Mobile/tablet hamburger button */}
           <button
             ref={menuButtonRef}
             type="button"
@@ -282,7 +298,17 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Desktop navigation */}
+        {/* Mobile/tablet breadcrumb */}
+        {hasBreadcrumb && (
+          <div
+            className="border-b border-theme-border/50
+                       px-4 py-2 xl:hidden"
+          >
+            <Breadcrumbs />
+          </div>
+        )}
+
+        {/* Desktop sidebar navigation */}
         <nav
           aria-label="Desktop navigation"
           className="mt-16 hidden xl:block"
@@ -311,9 +337,11 @@ function Navbar() {
                           ${
                             isActive
                               ? "w-full opacity-100"
-                              : `w-0 opacity-0
-                                 group-hover/link:w-full
-                                 group-hover/link:opacity-60`
+                              : `
+                                  w-0 opacity-0
+                                  group-hover/link:w-full
+                                  group-hover/link:opacity-60
+                                `
                           }
                         `}
                       />
@@ -376,12 +404,16 @@ function Navbar() {
 
                         ${
                           isActive
-                            ? `bg-indigo-50 text-indigo-700
-                               dark:bg-violet-500/15
-                               dark:text-violet-300`
-                            : `text-secondary
-                               hover:bg-hover-surface
-                               hover:text-primary`
+                            ? `
+                                bg-indigo-50 text-indigo-700
+                                dark:bg-violet-500/15
+                                dark:text-violet-300
+                              `
+                            : `
+                                text-secondary
+                                hover:bg-hover-surface
+                                hover:text-primary
+                              `
                         }
                       `}
                     >
